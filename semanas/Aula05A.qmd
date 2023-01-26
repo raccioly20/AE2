@@ -1,0 +1,224 @@
+---
+title: "Regularização de Modelos"
+author: "Ricardo Accioly"
+date: "`r Sys.Date()`"
+output:
+ html_document:
+    toc: yes
+    code_download: yes
+---
+
+## Regularização de modelos
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+
+# parametros para imagens
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.73,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "90%"
+)
+```
+
+## Carregando Bibliotecas
+
+```{r bibliotecas, warning=FALSE, message=FALSE}
+library(faraway)
+library(glmnet)
+```
+
+## Carregando os dados
+
+Neste exercíco vamos ajustar um modelo de regressão linear múltipla ao conjunto de dados fat da biblioteca faraway.
+
+```{r Dados}
+data("fat")
+gordura <- fat
+str(gordura)
+```
+
+## Renomeando as variáveis
+
+```{r}
+gordura <- gordura %>% rename(densidade = density, idade = age, peso=weight, altura = height,
+                          livre = free, pescoco = neck, torax = chest, quadril = hip,
+                           coxa = thigh, joelho = knee, tornozelo = ankle, antebraco = forearm,
+                           pulso = wrist) %>% 
+                            select(brozek, idade, peso, altura, pescoco,                                        torax, abdom, quadril, coxa, joelho, tornozelo, biceps,antebraco, pulso)                             
+str(gordura)
+```
+
+```{r}
+# Fat
+# - brozek: Percentual de gordura corporal usando a equação de Brozek, 457/Densidade - 414,2
+# - siri:  Percentual de gordura corporal usando a equação de Siri, 495/Densidade - 450
+# - densidade: Densidade (gm/$cm^3$)
+# - idade: idade (anos)
+# - peso: Peso (libras)
+# - altura: Altura (polegadas)
+# - adipos: Índice de adiposidade = Peso/Altura$^2$ (kg/$m^2$)
+# - livre: Peso livre de gordura = (1 - fração de gordura corporal) * Peso, utilizando a fórmula de Brozek (lbs)
+# - pescoco: Circunferência do pescoço (cm)
+# - torax: Circunferência torácica (cm)
+# - abdom: Circunferência do abdômen (cm) no umbigo e nível com a crista ilíaca
+# - quadril: Circunferência do quadril (cm)
+# - coxa: Circunferência da coxa (cm)
+# - joelho: Circunferência do joelho (cm)
+# - tornozelo: Circunferência do tornozelo (cm)
+# - biceps: Circunferência estendida dos bíceps (cm)
+# - antebraco: Circunferência do antebraço (cm)
+# - pulso: Circunferência do pulso (cm) 
+```
+
+## Conjunto de teste e treino
+
+```{r treino_teste}
+library(caret)
+set.seed(1234)
+y <- gordura$brozek
+indice_teste <- createDataPartition(y, times = 1, p = 0.10, list = FALSE)
+
+conj_treino <- gordura %>% slice(-indice_teste)
+conj_teste <- gordura %>% slice(indice_teste)
+
+summary(conj_treino)
+str(conj_treino)
+summary(conj_teste)
+str(conj_teste)
+head(conj_treino)
+```
+
+## Métodos de Regularização
+
+O pacote glmnet não usa a linguagem de formula, em particular nós devemos passar $x$ como uma matriz e $y$ como um vetor, pois não se usa a sintaxe $y \sim x$. Com isso será necessário ajustar x e y. A função model.matrix() é particularmente útil para criar x; não só produz uma matriz correspondente as variáveis explicativas, **mas também transforma automaticamente quaisquer variáveis qualitativas em variáveis dummy. Esta última propriedade é importante porque o glmnet() só pode tomar insumos numéricos e quantitativos.**
+
+```{r preparando_dados}
+x_treino <- model.matrix(brozek ~ . , data = conj_treino)[, -1]
+y_treino <- conj_treino$brozek
+
+x_teste <- model.matrix(brozek ~ . , data = conj_teste)[, -1]
+y_teste = conj_teste$brozek
+```
+
+## Regressão Ridge
+
+Primeiro vamos ajustar um modelo de regressão Ridge. Isso é conseguido chamando `glmnet()` com `alpha=0`, se `alpha=1` então `glmnet()` ajusta um lasso.(veja o arquivo de ajuda).
+
+```{r Ridge}
+## Estabelecendo um grid de valores para lambda
+grid <- 10^seq(-2, 10, length = 100)
+ajusreg.ridge <- glmnet(x_treino, y_treino, alpha=0, lambda = grid)
+
+```
+
+Por padrão, a função `glmnet()` executa a regressão ridge automaticamente selecionando a faixa de valores de $\lambda$. No entanto, aqui nós escolhemos implementar usando uma grade de valores que variam de $\lambda = 10^{-2}$ a $\lambda = 10^{10}$, cobrindo toda a gama de cenários do modelo nulo contendo apenas o coeficiente linear até o ajuste dos mínimos quadrados.
+
+Também podemos calcular o modelo para um valor particular de $\lambda$ que não é um dos valores de grade. Observe que, por padrão, a função `glmnet()` padroniza as variáveis para que elas estejam na mesma escala. **Esta padronização é muito importante no caso da regressão Ridge, pois ela é afetada pela mudança de escala das variáveis explicativas.**
+
+Associado a cada valor de $\lambda$ existe um vetor de coeficientes de regressão de ridge, que é armazenado em uma matriz que pode ser acessada por 'coef()'. Neste caso, é uma matriz $14 \times 100$, com 14 linhas (uma para cada preditor, mais uma para o coeficiente linear) e 100 colunas (uma para cada valor de $\lambda$).
+
+```{r r1}
+dim(coef(ajusreg.ridge))
+plot(ajusreg.ridge, xvar="lambda", label=TRUE) # Representando os coeficientes
+
+```
+
+Quando $\lambda$ é grande o esperado é que os coeficentes sejam pequenos e quando $\lambda$ é pequeno os coeficientes assumem valores maiores.
+
+```{r r2}
+ajusreg.ridge$lambda[1] # Mostra primeiro valor de lambda
+coef(ajusreg.ridge)[,1] # Mostra os coeficientes associados com o primeiro valor
+ajusreg.ridge$lambda[100] # Mostra centésimo valor de lambda
+coef(ajusreg.ridge)[,100] # Mostra os coeficientes associados com o centésimo valor
+```
+
+```{r r3}
+library(plotmo)
+plot_glmnet(ajusreg.ridge)
+```
+
+## Cross-Validation no Ridge
+
+Nós podemos usar o k-fold cross validation para identificar o melhor valor de $\lambda$
+
+A biblioteca glmnet já tem internamente uma função para uso do crosss validation. O default são 10 envelopes de dados `nfold=10`.
+
+```{r r4}
+set.seed(21)
+ridge_cv <- cv.glmnet(x_treino,y_treino, alpha=0) ## por padrão k=10
+plot(ridge_cv)
+m_lamb <- ridge_cv$lambda.min  # Seleciona o lambda que minimiza o MSE (EQM) de treino
+m_lamb
+log(m_lamb)
+coef(ridge_cv, s=m_lamb)
+```
+
+## Avaliando com conjunto de teste
+
+Em seguida avaliamos seu MSE no conjunto de teste, usando $\lambda$ = m_lamb. Observe o uso da função 'predict()': desta vez temos previsões para um conjunto de teste, com o argumento `newx`.
+
+```{r avaliando}
+ajusreg.ridge2 <- glmnet(x_treino, y_treino, alpha=0, lambda = m_lamb)
+y_prev <- predict(ajusreg.ridge2, s = m_lamb, newx = x_teste)
+# Metricas de desempenho
+sqrt(mean((y_prev - y_teste)^2))
+```
+
+## LASSO
+
+Primeiro ajustamos com todos os dados como no caso do Ridge
+
+```{r LASSO}
+ajusreg.lasso <- glmnet(x_treino,y_treino, alpha = 1)
+plot(ajusreg.lasso, xvar="lambda", label=TRUE) # Representando os coeficientes
+plot_glmnet(ajusreg.lasso)
+```
+
+## Validação Cruzada no LASSO
+
+```{r Lasso2}
+lasso_cv <- cv.glmnet(x_treino,y_treino, alpha = 1)
+plot(lasso_cv)
+m_lamb1 <- lasso_cv$lambda.min  # Seleciona o lambda que minimiza o MSE de treino
+m_lamb1
+log(m_lamb1)
+coef(lasso_cv, s=m_lamb1)
+```
+
+## Avaliando com conjunto de teste
+
+```{r lasso2}
+ajusreg.lasso2 <- glmnet(x_treino, y_treino, alpha=1, lambda = m_lamb1)
+y_prev <- predict(ajusreg.lasso2, s = m_lamb1, newx = x_teste)
+# Metricas de desempenho
+sqrt(mean((y_prev - y_teste)^2))
+```
+
+## Comparando com a seleção de modelos usando o BIC
+
+```{r outro}
+library(leaps)
+## Best Subset 
+mod1.bs <- regsubsets(brozek ~ . , data = conj_treino, nvmax = 14)
+sum.mod1bs <- summary(mod1.bs)
+sum.mod1bs
+names(sum.mod1bs)
+plot(sum.mod1bs$bic,xlab="Numero de Variaveis",ylab="BIC")
+which.min(sum.mod1bs$bic)
+points(4,sum.mod1bs$bic[4],pch=20,col="red")
+```
+
+## Ajustando no lm() e vendo o erro no conjunto de teste
+
+Observando so resultados de erro vemos que tanto a regressão Ridge como o LASSO apresentaram valores de erro maiores que o modelo definido através da melhor seleção de modelos (best subset regression). Aqui usamos o BIC como critério de deleção de variáveis.
+
+```{r erro_teste}
+mod1a.lm <- lm(brozek ~ peso + abdom + antebraco + pulso,data=conj_treino)
+summary(mod1a.lm)
+sqrt(mean((conj_teste$brozek - predict(mod1a.lm, conj_teste)) ^ 2)) 
+```

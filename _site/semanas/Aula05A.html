@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ricardo Accioly">
+<meta name="dcterms.date" content="2022-10-06">
+
+<title>Análise Estatística II - Regularização de Modelos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta name="twitter:title" content="Análise Estatística II - Regularização de Modelos">
+<meta name="twitter:description" content="Neste exercíco vamos ajustar um modelo de regressão linear múltipla ao conjunto de dados fat da biblioteca faraway.">
+<meta name="twitter:image" content="../images/AE2.png">
+<meta name="twitter:creator" content="@r_accioly">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Regularização de Modelos</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/raccioly20" title="GitHub" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/r_accioly" title="Twitter" class="sidebar-tool px-1"><i class="bi bi-twitter"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Informação da disciplina</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../visao-do-curso.html" class="sidebar-item-text sidebar-link">Visão Geral</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Cronograma</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">Conteúdo Semanal</a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula01.html" class="sidebar-item-text sidebar-link">Aula 01</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula02.html" class="sidebar-item-text sidebar-link">Aula 02</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula03.html" class="sidebar-item-text sidebar-link">Aula 03</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula04.html" class="sidebar-item-text sidebar-link">Aula 04</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula05.html" class="sidebar-item-text sidebar-link">Aula 05</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula06.html" class="sidebar-item-text sidebar-link">Aula 06</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#regularização-de-modelos" id="toc-regularização-de-modelos" class="nav-link active" data-scroll-target="#regularização-de-modelos">Regularização de modelos</a></li>
+  <li><a href="#carregando-bibliotecas" id="toc-carregando-bibliotecas" class="nav-link" data-scroll-target="#carregando-bibliotecas">Carregando Bibliotecas</a></li>
+  <li><a href="#carregando-os-dados" id="toc-carregando-os-dados" class="nav-link" data-scroll-target="#carregando-os-dados">Carregando os dados</a></li>
+  <li><a href="#renomeando-as-variáveis" id="toc-renomeando-as-variáveis" class="nav-link" data-scroll-target="#renomeando-as-variáveis">Renomeando as variáveis</a></li>
+  <li><a href="#conjunto-de-teste-e-treino" id="toc-conjunto-de-teste-e-treino" class="nav-link" data-scroll-target="#conjunto-de-teste-e-treino">Conjunto de teste e treino</a></li>
+  <li><a href="#métodos-de-regularização" id="toc-métodos-de-regularização" class="nav-link" data-scroll-target="#métodos-de-regularização">Métodos de Regularização</a></li>
+  <li><a href="#regressão-ridge" id="toc-regressão-ridge" class="nav-link" data-scroll-target="#regressão-ridge">Regressão Ridge</a></li>
+  <li><a href="#cross-validation-no-ridge" id="toc-cross-validation-no-ridge" class="nav-link" data-scroll-target="#cross-validation-no-ridge">Cross-Validation no Ridge</a></li>
+  <li><a href="#avaliando-com-conjunto-de-teste" id="toc-avaliando-com-conjunto-de-teste" class="nav-link" data-scroll-target="#avaliando-com-conjunto-de-teste">Avaliando com conjunto de teste</a></li>
+  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso">LASSO</a></li>
+  <li><a href="#validação-cruzada-no-lasso" id="toc-validação-cruzada-no-lasso" class="nav-link" data-scroll-target="#validação-cruzada-no-lasso">Validação Cruzada no LASSO</a></li>
+  <li><a href="#avaliando-com-conjunto-de-teste-1" id="toc-avaliando-com-conjunto-de-teste-1" class="nav-link" data-scroll-target="#avaliando-com-conjunto-de-teste-1">Avaliando com conjunto de teste</a></li>
+  <li><a href="#comparando-com-a-seleção-de-modelos-usando-o-bic" id="toc-comparando-com-a-seleção-de-modelos-usando-o-bic" class="nav-link" data-scroll-target="#comparando-com-a-seleção-de-modelos-usando-o-bic">Comparando com a seleção de modelos usando o BIC</a></li>
+  <li><a href="#ajustando-no-lm-e-vendo-o-erro-no-conjunto-de-teste" id="toc-ajustando-no-lm-e-vendo-o-erro-no-conjunto-de-teste" class="nav-link" data-scroll-target="#ajustando-no-lm-e-vendo-o-erro-no-conjunto-de-teste">Ajustando no lm() e vendo o erro no conjunto de teste</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Regularização de Modelos</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ricardo Accioly </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 6, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="regularização-de-modelos" class="level2">
+<h2 class="anchored" data-anchor-id="regularização-de-modelos">Regularização de modelos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># parametros para imagens</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">8</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.asp =</span> <span class="fl">0.73</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.retina =</span> <span class="dv">3</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">300</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">out.width =</span> <span class="st">"90%"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="carregando-bibliotecas" class="level2">
+<h2 class="anchored" data-anchor-id="carregando-bibliotecas">Carregando Bibliotecas</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="carregando-os-dados" class="level2">
+<h2 class="anchored" data-anchor-id="carregando-os-dados">Carregando os dados</h2>
+<p>Neste exercíco vamos ajustar um modelo de regressão linear múltipla ao conjunto de dados fat da biblioteca faraway.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"fat"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gordura <span class="ot">&lt;-</span> fat</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(gordura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   252 obs. of  18 variables:
+ $ brozek : num  12.6 6.9 24.6 10.9 27.8 20.6 19 12.8 5.1 12 ...
+ $ siri   : num  12.3 6.1 25.3 10.4 28.7 20.9 19.2 12.4 4.1 11.7 ...
+ $ density: num  1.07 1.09 1.04 1.08 1.03 ...
+ $ age    : int  23 22 22 26 24 24 26 25 25 23 ...
+ $ weight : num  154 173 154 185 184 ...
+ $ height : num  67.8 72.2 66.2 72.2 71.2 ...
+ $ adipos : num  23.7 23.4 24.7 24.9 25.6 26.5 26.2 23.6 24.6 25.8 ...
+ $ free   : num  135 161 116 165 133 ...
+ $ neck   : num  36.2 38.5 34 37.4 34.4 39 36.4 37.8 38.1 42.1 ...
+ $ chest  : num  93.1 93.6 95.8 101.8 97.3 ...
+ $ abdom  : num  85.2 83 87.9 86.4 100 94.4 90.7 88.5 82.5 88.6 ...
+ $ hip    : num  94.5 98.7 99.2 101.2 101.9 ...
+ $ thigh  : num  59 58.7 59.6 60.1 63.2 66 58.4 60 62.9 63.1 ...
+ $ knee   : num  37.3 37.3 38.9 37.3 42.2 42 38.3 39.4 38.3 41.7 ...
+ $ ankle  : num  21.9 23.4 24 22.8 24 25.6 22.9 23.2 23.8 25 ...
+ $ biceps : num  32 30.5 28.8 32.4 32.2 35.7 31.9 30.5 35.9 35.6 ...
+ $ forearm: num  27.4 28.9 25.2 29.4 27.7 30.6 27.8 29 31.1 30 ...
+ $ wrist  : num  17.1 18.2 16.6 18.2 17.7 18.8 17.7 18.8 18.2 19.2 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="renomeando-as-variáveis" class="level2">
+<h2 class="anchored" data-anchor-id="renomeando-as-variáveis">Renomeando as variáveis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gordura <span class="ot">&lt;-</span> gordura <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">densidade =</span> density, <span class="at">idade =</span> age, <span class="at">peso=</span>weight, <span class="at">altura =</span> height,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">livre =</span> free, <span class="at">pescoco =</span> neck, <span class="at">torax =</span> chest, <span class="at">quadril =</span> hip,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">coxa =</span> thigh, <span class="at">joelho =</span> knee, <span class="at">tornozelo =</span> ankle, <span class="at">antebraco =</span> forearm,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">pulso =</span> wrist) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">select</span>(brozek, idade, peso, altura, pescoco,                                        torax, abdom, quadril, coxa, joelho, tornozelo, biceps,antebraco, pulso)                             </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(gordura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   252 obs. of  14 variables:
+ $ brozek   : num  12.6 6.9 24.6 10.9 27.8 20.6 19 12.8 5.1 12 ...
+ $ idade    : int  23 22 22 26 24 24 26 25 25 23 ...
+ $ peso     : num  154 173 154 185 184 ...
+ $ altura   : num  67.8 72.2 66.2 72.2 71.2 ...
+ $ pescoco  : num  36.2 38.5 34 37.4 34.4 39 36.4 37.8 38.1 42.1 ...
+ $ torax    : num  93.1 93.6 95.8 101.8 97.3 ...
+ $ abdom    : num  85.2 83 87.9 86.4 100 94.4 90.7 88.5 82.5 88.6 ...
+ $ quadril  : num  94.5 98.7 99.2 101.2 101.9 ...
+ $ coxa     : num  59 58.7 59.6 60.1 63.2 66 58.4 60 62.9 63.1 ...
+ $ joelho   : num  37.3 37.3 38.9 37.3 42.2 42 38.3 39.4 38.3 41.7 ...
+ $ tornozelo: num  21.9 23.4 24 22.8 24 25.6 22.9 23.2 23.8 25 ...
+ $ biceps   : num  32 30.5 28.8 32.4 32.2 35.7 31.9 30.5 35.9 35.6 ...
+ $ antebraco: num  27.4 28.9 25.2 29.4 27.7 30.6 27.8 29 31.1 30 ...
+ $ pulso    : num  17.1 18.2 16.6 18.2 17.7 18.8 17.7 18.8 18.2 19.2 ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fat</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - brozek: Percentual de gordura corporal usando a equação de Brozek, 457/Densidade - 414,2</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># - siri:  Percentual de gordura corporal usando a equação de Siri, 495/Densidade - 450</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># - densidade: Densidade (gm/$cm^3$)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - idade: idade (anos)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># - peso: Peso (libras)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># - altura: Altura (polegadas)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># - adipos: Índice de adiposidade = Peso/Altura$^2$ (kg/$m^2$)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># - livre: Peso livre de gordura = (1 - fração de gordura corporal) * Peso, utilizando a fórmula de Brozek (lbs)</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># - pescoco: Circunferência do pescoço (cm)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># - torax: Circunferência torácica (cm)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># - abdom: Circunferência do abdômen (cm) no umbigo e nível com a crista ilíaca</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># - quadril: Circunferência do quadril (cm)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># - coxa: Circunferência da coxa (cm)</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># - joelho: Circunferência do joelho (cm)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># - tornozelo: Circunferência do tornozelo (cm)</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># - biceps: Circunferência estendida dos bíceps (cm)</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># - antebraco: Circunferência do antebraço (cm)</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># - pulso: Circunferência do pulso (cm) </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="conjunto-de-teste-e-treino" class="level2">
+<h2 class="anchored" data-anchor-id="conjunto-de-teste-e-treino">Conjunto de teste e treino</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: lattice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lattice'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:faraway':
+
+    melanoma</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'caret'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    lift</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> gordura<span class="sc">$</span>brozek</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>indice_teste <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(y, <span class="at">times =</span> <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.10</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>conj_treino <span class="ot">&lt;-</span> gordura <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="sc">-</span>indice_teste)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>conj_teste <span class="ot">&lt;-</span> gordura <span class="sc">%&gt;%</span> <span class="fu">slice</span>(indice_teste)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(conj_treino)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     brozek          idade            peso           altura     
+ Min.   : 0.00   Min.   :22.00   Min.   :118.5   Min.   :29.50  
+ 1st Qu.:12.80   1st Qu.:35.75   1st Qu.:159.0   1st Qu.:68.25  
+ Median :19.00   Median :43.50   Median :177.0   Median :70.25  
+ Mean   :18.86   Mean   :44.78   Mean   :179.1   Mean   :70.16  
+ 3rd Qu.:24.60   3rd Qu.:53.25   3rd Qu.:196.8   3rd Qu.:72.25  
+ Max.   :45.10   Max.   :81.00   Max.   :363.1   Max.   :77.75  
+    pescoco          torax            abdom           quadril      
+ Min.   :31.10   Min.   : 79.30   Min.   : 69.40   Min.   : 85.00  
+ 1st Qu.:36.40   1st Qu.: 94.83   1st Qu.: 84.58   1st Qu.: 95.58  
+ Median :37.90   Median : 99.75   Median : 90.90   Median : 99.35  
+ Mean   :37.99   Mean   :100.80   Mean   : 92.52   Mean   : 99.93  
+ 3rd Qu.:39.52   3rd Qu.:105.30   3rd Qu.: 99.72   3rd Qu.:103.28  
+ Max.   :51.20   Max.   :136.20   Max.   :148.10   Max.   :147.70  
+      coxa           joelho        tornozelo         biceps     
+ Min.   :47.20   Min.   :33.00   Min.   :19.10   Min.   :24.80  
+ 1st Qu.:56.00   1st Qu.:36.90   1st Qu.:22.00   1st Qu.:30.30  
+ Median :59.10   Median :38.40   Median :22.85   Median :32.30  
+ Mean   :59.45   Mean   :38.56   Mean   :23.10   Mean   :32.34  
+ 3rd Qu.:62.35   3rd Qu.:40.00   3rd Qu.:24.00   3rd Qu.:34.40  
+ Max.   :87.30   Max.   :49.10   Max.   :33.90   Max.   :45.00  
+   antebraco         pulso      
+ Min.   :21.00   Min.   :15.80  
+ 1st Qu.:27.30   1st Qu.:17.60  
+ Median :28.75   Median :18.30  
+ Mean   :28.66   Mean   :18.22  
+ 3rd Qu.:30.00   3rd Qu.:18.80  
+ Max.   :34.90   Max.   :21.40  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(conj_treino)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   224 obs. of  14 variables:
+ $ brozek   : num  12.6 6.9 24.6 10.9 27.8 20.6 19 12.8 5.1 12 ...
+ $ idade    : int  23 22 22 26 24 24 26 25 25 23 ...
+ $ peso     : num  154 173 154 185 184 ...
+ $ altura   : num  67.8 72.2 66.2 72.2 71.2 ...
+ $ pescoco  : num  36.2 38.5 34 37.4 34.4 39 36.4 37.8 38.1 42.1 ...
+ $ torax    : num  93.1 93.6 95.8 101.8 97.3 ...
+ $ abdom    : num  85.2 83 87.9 86.4 100 94.4 90.7 88.5 82.5 88.6 ...
+ $ quadril  : num  94.5 98.7 99.2 101.2 101.9 ...
+ $ coxa     : num  59 58.7 59.6 60.1 63.2 66 58.4 60 62.9 63.1 ...
+ $ joelho   : num  37.3 37.3 38.9 37.3 42.2 42 38.3 39.4 38.3 41.7 ...
+ $ tornozelo: num  21.9 23.4 24 22.8 24 25.6 22.9 23.2 23.8 25 ...
+ $ biceps   : num  32 30.5 28.8 32.4 32.2 35.7 31.9 30.5 35.9 35.6 ...
+ $ antebraco: num  27.4 28.9 25.2 29.4 27.7 30.6 27.8 29 31.1 30 ...
+ $ pulso    : num  17.1 18.2 16.6 18.2 17.7 18.8 17.7 18.8 18.2 19.2 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(conj_teste)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     brozek          idade            peso           altura     
+ Min.   : 7.10   Min.   :24.00   Min.   :133.5   Min.   :65.00  
+ 1st Qu.:13.15   1st Qu.:36.50   1st Qu.:158.6   1st Qu.:67.94  
+ Median :19.05   Median :42.50   Median :167.8   Median :69.75  
+ Mean   :19.60   Mean   :45.71   Mean   :177.3   Mean   :70.05  
+ 3rd Qu.:24.10   3rd Qu.:54.75   3rd Qu.:198.8   3rd Qu.:71.81  
+ Max.   :38.20   Max.   :72.00   Max.   :247.2   Max.   :76.00  
+    pescoco          torax            abdom           quadril      
+ Min.   :33.60   Min.   : 88.20   Min.   : 73.70   Min.   : 88.50  
+ 1st Qu.:36.30   1st Qu.: 93.83   1st Qu.: 86.08   1st Qu.: 95.03  
+ Median :38.30   Median : 98.00   Median : 92.15   Median : 98.15  
+ Mean   :38.01   Mean   :101.00   Mean   : 92.84   Mean   : 99.72  
+ 3rd Qu.:38.95   3rd Qu.:106.72   3rd Qu.: 98.95   3rd Qu.:103.72  
+ Max.   :42.10   Max.   :118.50   Max.   :115.60   Max.   :116.10  
+      coxa           joelho        tornozelo         biceps     
+ Min.   :50.30   Min.   :34.50   Min.   :20.40   Min.   :27.90  
+ 1st Qu.:56.23   1st Qu.:37.55   1st Qu.:22.20   1st Qu.:29.98  
+ Median :57.35   Median :38.75   Median :22.70   Median :31.05  
+ Mean   :59.06   Mean   :38.85   Mean   :23.09   Mean   :31.76  
+ 3rd Qu.:62.20   3rd Qu.:39.73   3rd Qu.:23.80   3rd Qu.:32.27  
+ Max.   :71.20   Max.   :45.00   Max.   :26.30   Max.   :38.50  
+   antebraco         pulso      
+ Min.   :25.20   Min.   :16.90  
+ 1st Qu.:27.27   1st Qu.:17.70  
+ Median :28.60   Median :18.45  
+ Mean   :28.68   Mean   :18.32  
+ 3rd Qu.:30.07   3rd Qu.:18.85  
+ Max.   :32.80   Max.   :19.90  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(conj_teste)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   28 obs. of  14 variables:
+ $ brozek   : num  20.5 19 15.3 13.4 31.1 38.2 11.2 7.1 21.1 23.7 ...
+ $ idade    : int  35 28 28 27 41 49 40 49 54 62 ...
+ $ peso     : num  163 179 200 168 247 ...
+ $ altura   : num  66 68 69.8 71.2 73.5 ...
+ $ pescoco  : num  36.4 39.1 41.3 38.1 42.1 38.4 33.6 35.1 35.6 35.5 ...
+ $ torax    : num  99.1 103.3 111.4 93 117 ...
+ $ abdom    : num  92.8 95.9 98.8 79.1 115.6 ...
+ $ quadril  : num  99.2 104.9 104.8 94.5 116.1 ...
+ $ coxa     : num  63.1 63.5 63.4 57.3 71.2 61.9 53.3 52.6 55 56.6 ...
+ $ joelho   : num  38.7 38 40.6 36.2 43.3 38.3 34.5 37.6 36.1 38.6 ...
+ $ tornozelo: num  21.7 22.1 24.6 24.5 26.3 21.9 22.5 22.6 21.7 22.4 ...
+ $ biceps   : num  31.1 32.5 33 29 37.3 32 27.9 38.5 29.6 31.5 ...
+ $ antebraco: num  26.4 30.3 32.8 30 31.7 29.8 26.2 27.4 27.4 27.3 ...
+ $ pulso    : num  16.9 18.4 19.9 18.8 19.7 17 17.3 18.5 17.4 18.6 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conj_treino)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  brozek idade   peso altura pescoco torax abdom quadril coxa joelho tornozelo
+1   12.6    23 154.25  67.75    36.2  93.1  85.2    94.5 59.0   37.3      21.9
+2    6.9    22 173.25  72.25    38.5  93.6  83.0    98.7 58.7   37.3      23.4
+3   24.6    22 154.00  66.25    34.0  95.8  87.9    99.2 59.6   38.9      24.0
+4   10.9    26 184.75  72.25    37.4 101.8  86.4   101.2 60.1   37.3      22.8
+5   27.8    24 184.25  71.25    34.4  97.3 100.0   101.9 63.2   42.2      24.0
+6   20.6    24 210.25  74.75    39.0 104.5  94.4   107.8 66.0   42.0      25.6
+  biceps antebraco pulso
+1   32.0      27.4  17.1
+2   30.5      28.9  18.2
+3   28.8      25.2  16.6
+4   32.4      29.4  18.2
+5   32.2      27.7  17.7
+6   35.7      30.6  18.8</code></pre>
+</div>
+</div>
+</section>
+<section id="métodos-de-regularização" class="level2">
+<h2 class="anchored" data-anchor-id="métodos-de-regularização">Métodos de Regularização</h2>
+<p>O pacote glmnet não usa a linguagem de formula, em particular nós devemos passar <span class="math inline">\(x\)</span> como uma matriz e <span class="math inline">\(y\)</span> como um vetor, pois não se usa a sintaxe <span class="math inline">\(y \sim x\)</span>. Com isso será necessário ajustar x e y. A função model.matrix() é particularmente útil para criar x; não só produz uma matriz correspondente as variáveis explicativas, <strong>mas também transforma automaticamente quaisquer variáveis qualitativas em variáveis dummy. Esta última propriedade é importante porque o glmnet() só pode tomar insumos numéricos e quantitativos.</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x_treino <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(brozek <span class="sc">~</span> . , <span class="at">data =</span> conj_treino)[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>y_treino <span class="ot">&lt;-</span> conj_treino<span class="sc">$</span>brozek</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>x_teste <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(brozek <span class="sc">~</span> . , <span class="at">data =</span> conj_teste)[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>y_teste <span class="ot">=</span> conj_teste<span class="sc">$</span>brozek</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="regressão-ridge" class="level2">
+<h2 class="anchored" data-anchor-id="regressão-ridge">Regressão Ridge</h2>
+<p>Primeiro vamos ajustar um modelo de regressão Ridge. Isso é conseguido chamando <code>glmnet()</code> com <code>alpha=0</code>, se <code>alpha=1</code> então <code>glmnet()</code> ajusta um lasso.(veja o arquivo de ajuda).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Estabelecendo um grid de valores para lambda</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">10</span>, <span class="at">length =</span> <span class="dv">100</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>ajusreg.ridge <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x_treino, y_treino, <span class="at">alpha=</span><span class="dv">0</span>, <span class="at">lambda =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por padrão, a função <code>glmnet()</code> executa a regressão ridge automaticamente selecionando a faixa de valores de <span class="math inline">\(\lambda\)</span>. No entanto, aqui nós escolhemos implementar usando uma grade de valores que variam de <span class="math inline">\(\lambda = 10^{-2}\)</span> a <span class="math inline">\(\lambda = 10^{10}\)</span>, cobrindo toda a gama de cenários do modelo nulo contendo apenas o coeficiente linear até o ajuste dos mínimos quadrados.</p>
+<p>Também podemos calcular o modelo para um valor particular de <span class="math inline">\(\lambda\)</span> que não é um dos valores de grade. Observe que, por padrão, a função <code>glmnet()</code> padroniza as variáveis para que elas estejam na mesma escala. <strong>Esta padronização é muito importante no caso da regressão Ridge, pois ela é afetada pela mudança de escala das variáveis explicativas.</strong></p>
+<p>Associado a cada valor de <span class="math inline">\(\lambda\)</span> existe um vetor de coeficientes de regressão de ridge, que é armazenado em uma matriz que pode ser acessada por ‘coef()’. Neste caso, é uma matriz <span class="math inline">\(14 \times 100\)</span>, com 14 linhas (uma para cada preditor, mais uma para o coeficiente linear) e 100 colunas (uma para cada valor de <span class="math inline">\(\lambda\)</span>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">coef</span>(ajusreg.ridge))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  14 100</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ajusreg.ridge, <span class="at">xvar=</span><span class="st">"lambda"</span>, <span class="at">label=</span><span class="cn">TRUE</span>) <span class="co"># Representando os coeficientes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/r1-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+</div>
+<p>Quando <span class="math inline">\(\lambda\)</span> é grande o esperado é que os coeficentes sejam pequenos e quando <span class="math inline">\(\lambda\)</span> é pequeno os coeficientes assumem valores maiores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ajusreg.ridge<span class="sc">$</span>lambda[<span class="dv">1</span>] <span class="co"># Mostra primeiro valor de lambda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1e+10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(ajusreg.ridge)[,<span class="dv">1</span>] <span class="co"># Mostra os coeficientes associados com o primeiro valor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept)         idade          peso        altura       pescoco 
+ 1.885536e+01  1.338553e-10  1.236410e-10 -1.600035e-10  1.169395e-09 
+        torax         abdom       quadril          coxa        joelho 
+ 4.956103e-10  4.493519e-10  5.088269e-10  6.527140e-10  1.261101e-09 
+    tornozelo        biceps     antebraco         pulso 
+ 9.163067e-10  1.030597e-09  1.086599e-09  2.221473e-09 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ajusreg.ridge<span class="sc">$</span>lambda[<span class="dv">100</span>] <span class="co"># Mostra centésimo valor de lambda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(ajusreg.ridge)[,<span class="dv">100</span>] <span class="co"># Mostra os coeficientes associados com o centésimo valor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept)         idade          peso        altura       pescoco 
+-12.665025839   0.046501055  -0.076440683  -0.071739239  -0.508989778 
+        torax         abdom       quadril          coxa        joelho 
+ -0.004699019   0.880707557  -0.249676597   0.270555234   0.041556722 
+    tornozelo        biceps     antebraco         pulso 
+  0.131190982   0.205106982   0.421414914  -1.536327001 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotmo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: Formula</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: plotrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: TeachingDemos</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(ajusreg.ridge)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/r3-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+</div>
+</section>
+<section id="cross-validation-no-ridge" class="level2">
+<h2 class="anchored" data-anchor-id="cross-validation-no-ridge">Cross-Validation no Ridge</h2>
+<p>Nós podemos usar o k-fold cross validation para identificar o melhor valor de <span class="math inline">\(\lambda\)</span></p>
+<p>A biblioteca glmnet já tem internamente uma função para uso do crosss validation. O default são 10 envelopes de dados <code>nfold=10</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>ridge_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x_treino,y_treino, <span class="at">alpha=</span><span class="dv">0</span>) <span class="do">## por padrão k=10</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ridge_cv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/r4-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>m_lamb <span class="ot">&lt;-</span> ridge_cv<span class="sc">$</span>lambda.min  <span class="co"># Seleciona o lambda que minimiza o MSE (EQM) de treino</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>m_lamb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6249388</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(m_lamb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.4701016</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(ridge_cv, <span class="at">s=</span>m_lamb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>14 x 1 sparse Matrix of class "dgCMatrix"
+                      s1
+(Intercept) -8.319874051
+idade        0.091812033
+peso        -0.007728679
+altura      -0.160691835
+pescoco     -0.363896737
+torax        0.125326493
+abdom        0.499795486
+quadril     -0.043728201
+coxa         0.205412068
+joelho      -0.022764635
+tornozelo   -0.013758365
+biceps       0.126449185
+antebraco    0.320053910
+pulso       -1.604822469</code></pre>
+</div>
+</div>
+</section>
+<section id="avaliando-com-conjunto-de-teste" class="level2">
+<h2 class="anchored" data-anchor-id="avaliando-com-conjunto-de-teste">Avaliando com conjunto de teste</h2>
+<p>Em seguida avaliamos seu MSE no conjunto de teste, usando <span class="math inline">\(\lambda\)</span> = m_lamb. Observe o uso da função ‘predict()’: desta vez temos previsões para um conjunto de teste, com o argumento <code>newx</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ajusreg.ridge2 <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x_treino, y_treino, <span class="at">alpha=</span><span class="dv">0</span>, <span class="at">lambda =</span> m_lamb)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>y_prev <span class="ot">&lt;-</span> <span class="fu">predict</span>(ajusreg.ridge2, <span class="at">s =</span> m_lamb, <span class="at">newx =</span> x_teste)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Metricas de desempenho</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((y_prev <span class="sc">-</span> y_teste)<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.299097</code></pre>
+</div>
+</div>
+</section>
+<section id="lasso" class="level2">
+<h2 class="anchored" data-anchor-id="lasso">LASSO</h2>
+<p>Primeiro ajustamos com todos os dados como no caso do Ridge</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ajusreg.lasso <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x_treino,y_treino, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ajusreg.lasso, <span class="at">xvar=</span><span class="st">"lambda"</span>, <span class="at">label=</span><span class="cn">TRUE</span>) <span class="co"># Representando os coeficientes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/LASSO-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(ajusreg.lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/LASSO-2.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+</div>
+</section>
+<section id="validação-cruzada-no-lasso" class="level2">
+<h2 class="anchored" data-anchor-id="validação-cruzada-no-lasso">Validação Cruzada no LASSO</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>lasso_cv <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x_treino,y_treino, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lasso_cv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/Lasso2-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>m_lamb1 <span class="ot">&lt;-</span> lasso_cv<span class="sc">$</span>lambda.min  <span class="co"># Seleciona o lambda que minimiza o MSE de treino</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>m_lamb1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02143833</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(m_lamb1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3.842575</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(lasso_cv, <span class="at">s=</span>m_lamb1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>14 x 1 sparse Matrix of class "dgCMatrix"
+                      s1
+(Intercept) -10.75177926
+idade         0.04473875
+peso         -0.06573034
+altura       -0.07857314
+pescoco      -0.49517762
+torax         .         
+abdom         0.85968374
+quadril      -0.22418970
+coxa          0.23815551
+joelho        .         
+tornozelo     0.09359249
+biceps        0.17940630
+antebraco     0.40651180
+pulso        -1.49340953</code></pre>
+</div>
+</div>
+</section>
+<section id="avaliando-com-conjunto-de-teste-1" class="level2">
+<h2 class="anchored" data-anchor-id="avaliando-com-conjunto-de-teste-1">Avaliando com conjunto de teste</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>ajusreg.lasso2 <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x_treino, y_treino, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lambda =</span> m_lamb1)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>y_prev <span class="ot">&lt;-</span> <span class="fu">predict</span>(ajusreg.lasso2, <span class="at">s =</span> m_lamb1, <span class="at">newx =</span> x_teste)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Metricas de desempenho</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((y_prev <span class="sc">-</span> y_teste)<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.300859</code></pre>
+</div>
+</div>
+</section>
+<section id="comparando-com-a-seleção-de-modelos-usando-o-bic" class="level2">
+<h2 class="anchored" data-anchor-id="comparando-com-a-seleção-de-modelos-usando-o-bic">Comparando com a seleção de modelos usando o BIC</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaps)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Best Subset </span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>mod1.bs <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(brozek <span class="sc">~</span> . , <span class="at">data =</span> conj_treino, <span class="at">nvmax =</span> <span class="dv">14</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>sum.mod1bs <span class="ot">&lt;-</span> <span class="fu">summary</span>(mod1.bs)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>sum.mod1bs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Subset selection object
+Call: regsubsets.formula(brozek ~ ., data = conj_treino, nvmax = 14)
+13 Variables  (and intercept)
+          Forced in Forced out
+idade         FALSE      FALSE
+peso          FALSE      FALSE
+altura        FALSE      FALSE
+pescoco       FALSE      FALSE
+torax         FALSE      FALSE
+abdom         FALSE      FALSE
+quadril       FALSE      FALSE
+coxa          FALSE      FALSE
+joelho        FALSE      FALSE
+tornozelo     FALSE      FALSE
+biceps        FALSE      FALSE
+antebraco     FALSE      FALSE
+pulso         FALSE      FALSE
+1 subsets of each size up to 13
+Selection Algorithm: exhaustive
+          idade peso altura pescoco torax abdom quadril coxa joelho tornozelo
+1  ( 1 )  " "   " "  " "    " "     " "   "*"   " "     " "  " "    " "      
+2  ( 1 )  " "   "*"  " "    " "     " "   "*"   " "     " "  " "    " "      
+3  ( 1 )  " "   "*"  " "    " "     " "   "*"   " "     " "  " "    " "      
+4  ( 1 )  " "   "*"  " "    " "     " "   "*"   " "     " "  " "    " "      
+5  ( 1 )  " "   "*"  " "    " "     " "   "*"   " "     "*"  " "    " "      
+6  ( 1 )  " "   "*"  " "    "*"     " "   "*"   " "     " "  " "    " "      
+7  ( 1 )  " "   "*"  " "    "*"     " "   "*"   "*"     "*"  " "    " "      
+8  ( 1 )  "*"   "*"  " "    "*"     " "   "*"   "*"     "*"  " "    " "      
+9  ( 1 )  "*"   "*"  " "    "*"     " "   "*"   "*"     "*"  " "    " "      
+10  ( 1 ) "*"   "*"  "*"    "*"     " "   "*"   "*"     "*"  " "    " "      
+11  ( 1 ) "*"   "*"  "*"    "*"     " "   "*"   "*"     "*"  " "    "*"      
+12  ( 1 ) "*"   "*"  "*"    "*"     " "   "*"   "*"     "*"  "*"    "*"      
+13  ( 1 ) "*"   "*"  "*"    "*"     "*"   "*"   "*"     "*"  "*"    "*"      
+          biceps antebraco pulso
+1  ( 1 )  " "    " "       " "  
+2  ( 1 )  " "    " "       " "  
+3  ( 1 )  " "    " "       "*"  
+4  ( 1 )  " "    "*"       "*"  
+5  ( 1 )  " "    "*"       "*"  
+6  ( 1 )  "*"    "*"       "*"  
+7  ( 1 )  " "    "*"       "*"  
+8  ( 1 )  " "    "*"       "*"  
+9  ( 1 )  "*"    "*"       "*"  
+10  ( 1 ) "*"    "*"       "*"  
+11  ( 1 ) "*"    "*"       "*"  
+12  ( 1 ) "*"    "*"       "*"  
+13  ( 1 ) "*"    "*"       "*"  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sum.mod1bs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "which"  "rsq"    "rss"    "adjr2"  "cp"     "bic"    "outmat" "obj"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sum.mod1bs<span class="sc">$</span>bic,<span class="at">xlab=</span><span class="st">"Numero de Variaveis"</span>,<span class="at">ylab=</span><span class="st">"BIC"</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(sum.mod1bs<span class="sc">$</span>bic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="dv">4</span>,sum.mod1bs<span class="sc">$</span>bic[<span class="dv">4</span>],<span class="at">pch=</span><span class="dv">20</span>,<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula05A_files/figure-html/outro-1.png" class="img-fluid" style="width:90.0%"></p>
+</div>
+</div>
+</section>
+<section id="ajustando-no-lm-e-vendo-o-erro-no-conjunto-de-teste" class="level2">
+<h2 class="anchored" data-anchor-id="ajustando-no-lm-e-vendo-o-erro-no-conjunto-de-teste">Ajustando no lm() e vendo o erro no conjunto de teste</h2>
+<p>Observando so resultados de erro vemos que tanto a regressão Ridge como o LASSO apresentaram valores de erro maiores que o modelo definido através da melhor seleção de modelos (best subset regression). Aqui usamos o BIC como critério de deleção de variáveis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>mod1a.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(brozek <span class="sc">~</span> peso <span class="sc">+</span> abdom <span class="sc">+</span> antebraco <span class="sc">+</span> pulso,<span class="at">data=</span>conj_treino)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1a.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = brozek ~ peso + abdom + antebraco + pulso, data = conj_treino)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9.7403 -2.8496 -0.1399  2.9035  8.5253 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -30.29197    7.02195  -4.314 2.43e-05 ***
+peso         -0.12440    0.02400  -5.182 4.97e-07 ***
+abdom         0.92885    0.05554  16.723  &lt; 2e-16 ***
+antebraco     0.51813    0.17193   3.014 0.002885 ** 
+pulso        -1.61145    0.43290  -3.722 0.000251 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.998 on 219 degrees of freedom
+Multiple R-squared:  0.7369,    Adjusted R-squared:  0.7321 
+F-statistic: 153.4 on 4 and 219 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((conj_teste<span class="sc">$</span>brozek <span class="sc">-</span> <span class="fu">predict</span>(mod1a.lm, conj_teste)) <span class="sc">^</span> <span class="dv">2</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.231517</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Baseado em https://sta210-s22.github.io/website/</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

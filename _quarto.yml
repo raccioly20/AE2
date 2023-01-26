@@ -1,0 +1,68 @@
+project:
+  type: website
+
+website:
+  page-navigation: true
+  title: "Análise Estatística II"
+  description: "Homepage para IME05-00296 Análise Estatística II."
+  
+  twitter-card:
+    creator: "@r_accioly"
+    image: "images/AE2.png"
+
+  page-footer:
+    left: "Baseado em https://sta210-s22.github.io/website/"
+    background: "#D9E3E4"
+    
+  sidebar:
+    background: "#D9E3E4"
+    logo: "images/AE2.png"
+    pinned: true
+    align: center
+    tools: 
+      - icon: github
+        href: https://github.com/raccioly20
+        text: "GitHub"
+      - icon: twitter
+        href: https://twitter.com/r_accioly
+        text: "Twitter"    
+
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "Informação da disciplina"
+        contents:
+          - href: visao-do-curso.qmd
+            text: "Visão Geral"
+          - href: index.qmd
+            text: Cronograma
+      - section: "Conteúdo Semanal"
+        contents:
+          - href: semanas/Aula01.qmd
+            text: "Aula 01"
+          - href: semanas/Aula02.qmd
+            text: "Aula 02"
+          - href: semanas/Aula03.qmd
+            text: "Aula 03"
+          - href: semanas/Aula04.qmd
+            text: "Aula 04"
+          - href: semanas/Aula05.qmd
+            text: "Aula 05"
+          - href: semanas/Aula06.qmd
+            text: "Aula 06"
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme.scss]
+      dark: [cosmo, theme-dark.scss]
+    mainfont: "Atkinson Hyperlegible"
+    code-copy: true
+    code-overflow: wrap
+    toc: true
+
+freeze: auto
+
+editor: visual
+

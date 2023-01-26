@@ -1,0 +1,292 @@
+---
+title: "Regressão Múltipla e Seleção de Modelos"
+author: "Ricardo Accioly"
+date: "`r Sys.Date()`"
+output:
+ html_document:
+    toc: yes
+    code_download: yes
+---
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+
+# parametros para imagens
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.73,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "90%"
+)
+```
+
+## Carregando Bibliotecas
+
+```{r bibliotecas, message=FALSE}
+library(faraway)
+library(leaps) # Metodos de selecao
+```
+
+## Carregando os dados
+
+Neste exercíco vamos ajustar um modelo de regressão linear múltipla ao conjunto de dados fat da biblioteca faraway.
+
+-   Com o conjunto de dados de gordura (fat) na biblioteca (faraway), queremos ajustar um modelo de regressão linear múltipla para prever o percentual de gordura corporal (y = brozek) usando diversas variáveis disponíveis, com exceção de:
+
+1.  siri (outra forma de cálculo do % de gordura corporal)
+2.  densidade (é usada nas fórmulas brozek e siri)
+3.  livre (é computada usando fórmula brozek)
+4.  adipos (é calculada a partir do peso e da altura)
+
+-   Vamos criar um conjunto de treino (90%) e outro de teste (10%)
+
+-   A partir do conjunto de dados você deverá usar três métodos de seleção de variáveis explicativas:
+
+1.  O melhor subconjunto (bestsubset)
+2.  Seleção passo a passo a frente (forward selection)
+3.  Seleção passo a passo para trás (backward selection)
+
+-   Para cada método vamos ajustar o modelo usando o lm() com as variáveis selecionadas. Compare os resultados dos três métodos e escreva suas conclusões
+
+-   Por último vamo avaliar os resíduos do modelo
+
+```{r Dados }
+library(faraway)
+data("fat")
+gordura <- fat
+str(gordura)
+```
+
+## Renomeando as variáveis
+
+```{r}
+gordura <- gordura %>% rename(densidade = density, idade = age, peso=weight, altura = height,
+                          livre = free, pescoco = neck, torax = chest, quadril = hip,
+                           coxa = thigh, joelho = knee, tornozelo = ankle, antebraco = forearm,
+                           pulso = wrist) %>% 
+                            select(brozek, idade, peso, altura, pescoco, torax, abdom, quadril,
+                                   coxa, joelho, tornozelo, biceps,antebraco, pulso)                             
+str(gordura)
+```
+
+```{r}
+# Fat
+# - brozek: Percentual de gordura corporal usando a equação de Brozek, 457/Densidade - 414,2
+# - siri:  Percentual de gordura corporal usando a equação de Siri, 495/Densidade - 450
+# - densidade: Densidade (gm/$cm^3$)
+# - idade: idade (anos)
+# - peso: Peso (libras)
+# - altura: Altura (polegadas)
+# - adipos: Índice de adiposidade = Peso/Altura$^2$ (kg/$m^2$)
+# - livre: Peso livre de gordura = (1 - fração de gordura corporal) * Peso, utilizando a fórmula de Brozek (lbs)
+# - pescoco: Circunferência do pescoço (cm)
+# - torax: Circunferência torácica (cm)
+# - abdom: Circunferência do abdômen (cm) no umbigo e nível com a crista ilíaca
+# - quadril: Circunferência do quadril (cm)
+# - coxa: Circunferência da coxa (cm)
+# - joelho: Circunferência do joelho (cm)
+# - tornozelo: Circunferência do tornozelo (cm)
+# - biceps: Circunferência estendida dos bíceps (cm)
+# - antebraco: Circunferência do antebraço (cm)
+# - pulso: Circunferência do pulso (cm) 
+```
+
+## Conjunto de teste e treino
+
+```{r treino_teste}
+library(caret)
+set.seed(1234)
+y <- gordura$brozek
+indice_teste <- createDataPartition(y, times = 1, p = 0.10, list = FALSE)
+
+conj_treino <- gordura %>% slice(-indice_teste)
+conj_teste <- gordura %>% slice(indice_teste)
+
+summary(conj_treino)
+str(conj_treino)
+summary(conj_teste)
+str(conj_teste)
+head(conj_treino)
+```
+
+## Estatística descritiva e Matriz de Dispersão
+
+```{r}
+library(psych)
+describe(conj_treino)
+pairs.panels(conj_treino)
+pairs.panels(conj_treino[,1:7])
+pairs.panels(conj_treino[,c(1,8:14)])
+```
+
+## Matriz de correlação
+
+```{r}
+library(corrplot)
+mat_corr <- cor(conj_treino)
+corrplot(mat_corr)
+```
+
+## Regressão Múltipla
+
+```{r}
+mod1a <- lm(brozek ~ ., data=conj_treino)
+summary(mod1a)
+```
+
+## Métodos de seleção de modelo
+
+```{r}
+## Best Subset 
+mod1.bs <- regsubsets(brozek ~ . , data = conj_treino, nvmax = 14)
+sum.mod1bs <- summary(mod1.bs)
+sum.mod1bs
+names(sum.mod1bs)
+```
+
+## Avaliando o modelos
+
+```{r}
+## Os modelos vão ser escolhidos com base no menor Cp
+plot(sum.mod1bs$cp,xlab="Numero de Variaveis",ylab="Cp")
+which.min(sum.mod1bs$cp)
+points(8,sum.mod1bs$cp[8],pch=20,col="red")
+```
+
+## Como extrair detalhes do ajuste
+
+```{r}
+coef(mod1.bs,8)  
+```
+
+## Forward Stepwise (passo a passo à frente)
+
+```{r}
+mod1.fw <- regsubsets(brozek ~ . , data = conj_treino, nvmax = 14, method="forward")
+sum.mod1fw <- summary(mod1.fw)
+sum.mod1fw
+names(sum.mod1fw)
+```
+
+## Avaliando o modelo
+
+```{r}
+## Os modelos vão ser escolhidos com base no menor Cp
+plot(sum.mod1fw$cp,xlab="Numero de Variaveis",ylab="Cp")
+which.min(sum.mod1fw$cp)
+points(8,sum.mod1fw$cp[8],pch=20,col="red")
+```
+
+## Como extrair detalhes do ajuste
+
+```{r}
+coef(mod1.fw,8)  
+```
+
+## Backward Stepwise (passo a passo atrás)
+
+```{r}
+mod1.bw <- regsubsets(brozek ~ . , data = conj_treino, nvmax = 14, method="backward")
+sum.mod1bw <- summary(mod1.bw)
+sum.mod1bw
+names(sum.mod1bw)
+```
+
+## Avaliando o modelo
+
+```{r}
+## Os modelos vão ser escolhidos com base no menor Cp
+plot(sum.mod1bw$cp,xlab="Numero de Variaveis",ylab="Cp")
+which.min(sum.mod1bw$cp)
+points(8,sum.mod1bw$cp[8],pch=20,col="red")
+```
+
+## Como extrair detalhes do ajuste
+
+```{r}
+coef(mod1.bw,8)  
+```
+
+Como vimos, independente do método de seleção de variáveis, usando o Cp o melhor modelo é o com 8 variáveis explicativas: idade, peso, pescoco, abdom, quadril, coxa, antebraco e pulso
+
+## Testando outra estatística de seleção de modelos - BIC
+
+```{r}
+# BIC
+plot(sum.mod1bs$bic,xlab="Numero de Variaveis",ylab="BIC")
+which.min(sum.mod1bs$bic)
+points(4,sum.mod1bs$bic[4],pch=20,col="red")
+```
+
+## Como extrair detalhes do ajuste
+
+```{r}
+coef(mod1.bs,4)  
+```
+
+Pelo BIC o melhor modelo é o com 4 variáves explicativas: peso, abdom, antebraço e pulso.
+
+## Comparando os dois modelos com o lm()
+
+```{r}
+## Usando o lm para ajustar o modelo com as variáveis selecionadas pelo BIC
+## Seleção do BIC
+mod1a.lm <- lm(brozek ~ peso + abdom + antebraco + pulso,data=conj_treino)
+summary(mod1a.lm)
+
+
+## Seleção do Cp
+mod1b.lm <- lm(brozek ~ idade + peso + pescoco + abdom + quadril + coxa + antebraco + pulso,data=conj_treino)
+summary(mod1b.lm)
+
+```
+
+Ajustando com o lm o modelo com as variáveis indicadas pelo BIC obtivemos um R2 ajustado de 0,7321, um erro padrão de resíduo de 3,998. Pelos valores da estatística t vemos que todas as variáveis escolhidas são estatisticamente significativas
+
+Ajustando pelo Cp o R2 ajustado foi de 0,7415 e o erro padrão do resíduo foi de 3,928.
+
+No entanto com o Cp, temos uma variável que se mostrou não significativas: idade Parece que o Cp exagerou!
+
+## Avaliando Colinearidade
+
+Uma investigação minuciosa da multicolinearidade envolverá a análise do valor do $R^2$ que resulta da regressão de cada uma das variáveis explicativas contra todas as outras. A relação entre as variáveis explicativas pode ser julgada examinando uma quantidade chamada fator de inflacionário da variância (FIV) ou Variance Inflation Factor (VIF). Seja $Rj~^{2}$ o quadrado do coeficiente de correlação múltipla que resulta quando a variável explicativa $Xj~$ é ajustada contra todas as outras variáveis explicativas. Então o vif para $Xj~$ é $VIFj = 1 / (1-Rj~^{2})$
+
+**A regra geral é que vifs superiores a 4 justificam novas investigações, enquanto VIFs superiores a 10 são sinais de multicolinearidade grave que requerem correção.**
+
+```{r}
+library(car)
+vif(mod1a.lm)
+```
+
+## Testando os dois modelos com o conjunto de teste
+
+```{r}
+# Modelo com base no BIC
+summary(mod1a.lm)$sigma
+summary(mod1a.lm)$adj.r.squared
+sqrt(mean((conj_teste$brozek - predict(mod1a.lm, conj_teste)) ^ 2))
+
+# Modelo com base no Cp
+summary(mod1b.lm)$sigma
+summary(mod1b.lm)$adj.r.squared
+sqrt(mean((conj_teste$brozek - predict(mod1b.lm, conj_teste)) ^ 2))
+```
+
+O erro de teste do BIC deu 4,231517. O erro de teste do Cp deu 4,301996, maior que o modelo do BIC.
+
+## Avaliando os Resíduos
+
+```{r}
+par(mfrow=c(2,2))
+plot(mod1a.lm)
+par(mfrow=c(1,1))
+library(car)
+residualPlots(mod1a.lm, tests=FALSE)
+shapiro.test(mod1a.lm$residuals)
+library(lmtest)
+bptest(mod1a.lm)
+influencePlot(mod1a.lm)
+```

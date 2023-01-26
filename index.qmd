@@ -1,0 +1,19 @@
+---
+title: "Análise Estatística II"
+---
+
+Esta página você vai encontrar o material didático que servirá de complemento para as aulas da disciplina de Análise Estatística II.
+
+As mudanças serão constantes ao longo do semestre.
+
+[Aula 01](/semanas/aula01.html)
+
+[Aula 02](/semanas/aula02.html)
+
+[Aula 03](/semanas/aula03.html)
+
+[Aula 04](/semanas/aula04.html)
+
+[Aula 05](/semanas/aula05.html)
+
+[Aula 06](/semanas/aula06.html)

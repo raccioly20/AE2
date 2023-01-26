@@ -1,0 +1,263 @@
+---
+title: "Distribuições de Probabilidade"
+author: "Ricardo Accioly"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    html-math-method: katex
+---
+
+## Carregando bibliotecas
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+library(kableExtra)
+```
+
+## Fraudes em uma loja
+
+Buscando obter um modelo para o número de fraudes com cartão numa loja, foram coletadas, ao longo de 1 ano, o número de ocorrências por semana. Os dados obtidos foram:
+
+-   0 ocorrências em 9 semanas
+
+-   1 ocorrência em 14 semanas
+
+-   2 ocorrências em 13 semanas
+
+-   3 ocorrências em 9 semanas
+
+-   4 ocorrências em 4 semanas
+
+-   5 ocorrências em 2 semanas
+
+-   6 ocorrências em 1 semana
+
+```{r}
+semanas <- c(9, 14, 13, 9, 4, 2, 1)
+sum(semanas)
+probabilidade <- semanas/52
+probabilidade
+round(probabilidade, 2) # arredondando para 2 casas decimais
+```
+
+## Criando uma tabela
+
+```{r}
+fraude_loja <- data.frame(n_fraudes=0:6, prob=probabilidade)
+fraude_loja
+fraude_loja %>% kbl(digits = 2) %>% kable_minimal()
+```
+
+## Visualizando a distribuição
+
+```{r}
+fraudes <- 0:6
+plot(fraudes, probabilidade, xlab = "Numero de fraudes numa semana", ylab = "Probabilidade", type = "h")
+```
+
+## Probabilidade Acumulada
+
+```{r}
+prob_acum <- cumsum(probabilidade)
+fraude_loja2 <- data.frame(n_fraudes=0:6, prob_acum=prob_acum)
+fraude_loja2 %>% kbl(digits = 2) %>% kable_minimal()
+```
+
+```{r}
+plot(fraudes, prob_acum, xlab = "Numero de fraudes numa semana",
+ylab = "Probabilidade Acumulada (P(X<=x))", type = "S")
+```
+
+## Distribuições de Probabilidade no R
+
+No R nós temos quatro funções que podem nos fornecer elementos de uma distribuição de probabilidade:
+
+-   Densidade ou probabilidade
+
+-   Probabilidade acumulada / Função distribuição acumulada
+
+-   Quantis
+
+-   Números aleatórios
+
+## Exemplo de distribuição discreta
+
+## Probabilidades de uma binomial
+
+```{r}
+x <- 0:50
+plot(x, dbinom(x, size=50, prob = 0.30), type="h")
+```
+
+## Probabilidade Acumulada
+
+```{r}
+plot(x, pbinom(x, size=50, prob = 0.30))
+```
+
+## Quantis
+
+```{r}
+qbinom(seq(0.1,0.9,0.1), size = 50, prob=0.30)
+```
+
+## Números aleatórios
+
+```{r}
+set.seed(22)
+rbinom(50, size = 50, prob=0.3)
+```
+
+## Probabilidades de uma Poisson
+
+```{r}
+x <- 0:6
+plot(x, dpois(x, lambda = 1.9), type="h")
+```
+
+## Lei de Benford
+
+Em 1996 T.P. Hill mosrou que podemos aproximar as frequencias dos dígitos usando a expressão abaixo.
+
+```{r}
+x <- 1:9
+prob <- log10(1 + 1/x)
+bendford <- data.frame(x=x, prob=prob)
+bendford %>% kbl(digits = 3) %>% kable_minimal()
+```
+
+## Exemplo de distribuição contínua
+
+## Distribuição Exponencial
+
+Tempo até uma falha
+
+```{r}
+set.seed(22)
+curve(dexp(x, 4), 0, 2, xlab = "t", ylab = "dexp(t, 4)")
+x <- seq(0, 0.5, 0.001)
+lines (x, dexp(x, 4), type = "h", col="grey") 
+text(0.5, dexp(0.3, 4), expression(P(T <= 0,5)))
+```
+
+## Distribuição Normal
+
+```{r}
+x <- seq(-3,3,0.1)
+plot(x, dnorm(x, mean=0, sd=1), type="l", xlab = "Quantis da Normal Padrão", ylab="Densidade de Probabilidade")
+```
+
+## Distribuição Normal
+
+```{r}
+x <- seq(-3,3,0.1)
+plot(x, dnorm(x, mean=0, sd=1), type="l", xlab = "Quantis da Normal Padrão", ylab="Densidade de Probabilidade")
+y <- seq(-1, 1, 0.01) 
+lines(y, dnorm(y, mean = 0, sd = 1), type = "h",
+col = "grey")
+```
+
+## Função distribuição acumulada
+
+```{r}
+prob_acum <- pnorm(x, mean=0, sd=1)
+plot(x, prob_acum, xlab = "Quantis da Normal Padrão",
+ylab = "FDA (P(X<=x))", type = "l")
+```
+
+## Quantil da Normal
+
+```{r}
+qnorm(c(0.25,0.5,0.75,0.95), mean=0, sd=1)
+qnorm(c(0.95,0.975,0.99), mean=0, sd=1)
+```
+
+## Números Aleatórios
+
+```{r}
+set.seed(22)
+rnorm(10, mean=0,sd=1)
+```
+
+## Gráfico QQ Normal
+
+```{r}
+set.seed(22)
+x <- rnorm(30, mean = 10, sd=1)
+qqnorm(x)
+qqline(x)
+```
+
+## Gráfico QQ Normal
+
+```{r}
+set.seed(22)
+x <- rnorm(100, mean = 10, sd=1)
+qqnorm(x)
+qqline(x)
+```
+
+## Gráfico QQ Normal
+
+```{r}
+set.seed(22)
+x <- rnorm(1000, mean = 10, sd=1)
+qqnorm(x)
+qqline(x)
+```
+
+## Como fica a exponencial?
+
+```{r}
+set.seed(22)
+x <- rexp(100, rate=2)
+qqnorm(x)
+qqline(x)
+```
+
+## Como fica a t?
+
+```{r}
+set.seed(22)
+x <- rt(100, df=2)
+qqnorm(x)
+qqline(x)
+```
+
+## Como fica a t?
+
+```{r}
+x <- rt(100, df=5)
+qqnorm(x)
+qqline(x)
+```
+
+## Como fica a t
+
+```{r}
+x <- seq(-3,3,0.1)
+curve(dt(x, df=2), -3, 3, xlab = "", ylab = "Densidade de Probabilidade", col=1, ylim=c(0,0.5))
+curve(dnorm(x, mean=0, sd=1), -3, 3, col=2, add=TRUE)
+legend(1,0.5, c("t", "Normal"), col=1:2, lty = 1)
+```
+
+## Outro gráfico QQ
+
+```{r}
+library(car)
+set.seed(22)
+x <- rt(100, df=5)
+qqPlot(x, distribution="norm")
+qqPlot(x, distribution="t", df=5)
+```
+
+## Como fica a Lognormal?
+
+```{r}
+x <- rlnorm(100, meanlog = 0, sdlog = 1)
+qqnorm(x)
+qqline(x)
+```

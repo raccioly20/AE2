@@ -1,0 +1,5 @@
+---
+title: "Análise Estatística II"
+---
+
+Ao final do período, o aluno deverá ser capaz de manusear com desembaraço a análise de dados que variem no tempo, separando-os em seus componentes de tendência e/ou sazonal/cíclica e aleatória.

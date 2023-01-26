@@ -1,0 +1,16 @@
+{
+  "hash": "b799e25d00c6b89465371bb6a17e017e",
+  "result": {
+    "markdown": "---\ntitle: \"Probabilidade Parte 2\"\nauthor: \"Ricardo Accioly\"\ndate: \"2022-09-15\"\nformat:\n  html:\n    toc: true\n    html-math-method: katex\n---\n\n\n## Carregando bibliotecas\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(kableExtra)\n\n# parametros para o ggplot2\nggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))\n\n# parametros para imagens\nknitr::opts_chunk$set(\n  fig.width = 8,\n  fig.asp = 0.618,\n  fig.retina = 3,\n  dpi = 300,\n  out.width = \"80%\"\n)\n```\n:::\n\n\n## Desigualdade de Markov\n\n\n$$\\begin{aligned} \\color{black}{\\mathbf{P(X>=t)}} &<= \\color{black}{\\frac{E(X)}{t}} \\end{aligned}$$\n\n\nUm fabricante sabe que a média do diametro de um produto é 10 mm. Ele quer estimar a proporçaõ de produtos que serão maiores ou iguais a 20 mm.\n\n\n$$\\begin{aligned} \\color{black}{\\mathbf{P(X>=20)}} &<= \\color{black}{\\frac{10}{20}} = \\color{black}{\\frac{1}{2}} \\end{aligned}$$\n\n\nVamos supor que os diametros sejam normalmente distribuídos. Como seria a probabilidade acima, considerando vários valores de desvio padrão?\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsd <- seq(1, 100, 5)\nplot(sd, 1 - pnorm(20, 10, sd), ylim = c(0, 1),\nxlab = \"Desvio Padrão\", ylab = \"P(X >= 20)\")\nabline (h = 10/20)\ntext(50, 0.55, \"Limite de Markov\")\n```\n\n::: {.cell-output-display}\n![](Aula02_files/figure-html/unnamed-chunk-2-1.png){width=80%}\n:::\n:::\n\n\n## Normal Bivariada\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(mvtnorm)\n\n# Matriz de covariâncias\nsigma <- matrix(c(1, 0.5, 0.5, 1), 2, 2)\n\n## Valores de x e y \nx <- seq(-4, 4, length=25)\ny <- seq(-4, 4, length=25)\n\n# Função para avaliar a densidade da normal bivariada\nbv.norm <- function(x, y, sigma) {\n  z <- cbind(x,y)\n  return(dmvnorm(z, sigma=sigma))\n}\n# Usando outer para avaliar a fdp num grid de valores x e y\nfxy <- outer(x, y, bv.norm, sigma)\n\n# Criando o gráfico 3D\npersp(x, y, fxy, theta=60, phi=20, expand=0.4, ticktype=\"detailed\", \n      zlab=\"\",col=\"grey\", cex.lab=1)\n```\n\n::: {.cell-output-display}\n![](Aula02_files/figure-html/unnamed-chunk-3-1.png){width=80%}\n:::\n:::\n\n\n## t Bivariada\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#library(mvtnorm)\n\n# Matriz de covariâncias\nsigma <- matrix(c(1, 0.5, 0.5, 1), 2, 2)\n\n## Valores de x e y \nx <- seq(-4, 4, length=25)\ny <- seq(-4, 4, length=25)\n\n\n# Função para avaliar a densidade da normal bivariada\nbv.t <- function(x, y, sigma) {\n  z <- cbind(x,y)\n  return(dmvt(z, sigma=sigma))\n}\n# Usando outer para avaliar a fdp num grid de valores x e y\nfxy <- outer(x, y, bv.t, sigma)\n\n# Criando o gráfico 3D\npersp(x, y, fxy, theta=40, phi=30, expand=0.5, ticktype=\"detailed\", \n      zlab=\"\",col=\"grey\", cex.lab=1)\n```\n\n::: {.cell-output-display}\n![](Aula02_files/figure-html/unnamed-chunk-4-1.png){width=80%}\n:::\n:::\n",
+    "supporting": [
+      "Aula02_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
