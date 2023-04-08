@@ -1,25 +1,14 @@
 ---
-title: "Inferência"
+title: "Explorando Series Temporais"
 author: "Ricardo Accioly"
 date: "`r Sys.Date()`"
-format:
-  html:
-    toc: true
-    html-math-method: katex
+output:
+ html_document:
+    toc: yes
+    code_download: yes
 ---
 
-## Carregando bibliotecas
-
 ```{r}
-#| warning: false
-#| message: false
-library(tidyverse)
-library(kableExtra)
-
-
-# parametros para o ggplot2
-ggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))
-
 # parametros para imagens
 knitr::opts_chunk$set(
   fig.width = 8,
@@ -30,163 +19,25 @@ knitr::opts_chunk$set(
 )
 ```
 
-## População
-
-Vamos supor que nossa população (universo) seja composto de 1000 valores aleatórios gerados a partir de uma normal padrão.
+## Carregando e visualizando dados de Produção de Cerveja
 
 ```{r}
-set.seed(123)
-populacao <- rnorm(1000,0,1)
-summary(populacao)
-```
-
-## Amostras
-
-```{r}
-set.seed(125)
-amostra1 <- sample(populacao, size=30)
-set.seed(126)
-amostra2 <- sample(populacao, size=30)
-set.seed(127)
-amostra3 <- sample(populacao, size=30)
-set.seed(128)
-amostra4 <- sample(populacao, size=30)
-amostras <- cbind(amostra1, amostra2, amostra3, amostra4)
-# amostras
-medias <- colMeans(amostras)
-desvios <- apply(amostras, 2,sd)
-ic.i <- medias - 1.96*desvios
-ic.s <- medias + 1.96*desvios
-names(desvios) <- c("dp1", "dp2", "dp3", "dp4")
-knitr::kable(cbind(medias,desvios, ic.i, ic.s), digits = 3)
-```
-
-## Amostras
-
-```{r}
-set.seed(125)
-amostra1 <- sample(populacao, size=100)
-set.seed(126)
-amostra2 <- sample(populacao, size=100)
-set.seed(127)
-amostra3 <- sample(populacao, size=100)
-set.seed(128)
-amostra4 <- sample(populacao, size=100)
-amostras <- cbind(amostra1, amostra2, amostra3, amostra4)
-medias <- colMeans(amostras)
-desvios <- apply(amostras, 2,sd)
-ic.i <- medias - 1.96*desvios
-ic.s <- medias + 1.96*desvios
-names(desvios) <- c("dp1", "dp2", "dp3", "dp4")
-knitr::kable(cbind(medias,desvios, ic.i, ic.s), digits = 3)
-```
-
-
-## Preparando simulação
-
-```{r}
-def.par <- par(no.readonly = TRUE) # salvando configuração
-
-n=cbind(c(3, 10, 30), # tamanho de amostras para os gráficos 1ª distribuição
-        c(3, 10, 30), # tamanho de amostras para os gráficos 2ª distribuição
-        c(3, 10, 30), # tamanho de amostras para os gráficos 3ª distribuição
-        c(3, 10, 30)) # tamanho de amostras para os gráficos 4ª distribuição
-X<-list(
-  x1 = matrix(NA,nrow=200,ncol=3), # Matriz que armazenara as médias da primeira dist
-  x2 = matrix(NA,nrow=200,ncol=3), # Matriz que armazenara as médias da segunda dist
-  x3 = matrix(NA,nrow=200,ncol=3), # Matriz que armazenara as médias da terceira dist
-  x4 = matrix(NA,nrow=200,ncol=3)) # Matriz que armazenara as médias da quarta dist
-
-set.seed(123)
-
-for ( i in 1:3){  # iterando ao longo do tamanho de amostras de cada linha
-  for ( j in 1: 200){  # Construindo 200 observacoes para cada gráfico  
-    X$x1[j,i] <-  mean( runif( n=n[i,1])) 
-    # Calculando a média para cada uma das 200 simulacoes de uma distribuicao uniforme
-    X$x2[j,i] <-  mean(  rexp( n=n[i,2], rate=2)) 
-    # Calculando a média para cada uma das 200 simulacoes de uma distribuicao                exponencial
-    X$x3[j,i] <-  mean(rchisq( n=n[i,3], df=1)) 
-    # Calculando a média para cada uma das 200 simulacoes de uma distribuicao                 qui-quadrado
-    X$x4[j,i] <-  mean( rbeta( n=n[i,4], shape1 = .2, shape2 = .2)) 
-    # Calculando a média para cada uma das 200 simulacoes de uma distribuicao beta
-  }
-}
-```
-
-## Resultado das Simulações
-
-Apresentação das 200 simulações das distribuições uniforme, exponencial, Chiquadrado e beta para os tamanhos de amostras n= 3, 10 e 30
-
-## Distribuição Uniforme
-
-```{r}
-layout(rbind(c(1,2,3,4)))
-plot(dunif(x = seq(0,1,0.05)),type="l", ylab="f(x)", main="fdp-Uniforme(0,1)", xlab="X")
-hist(X$x1[,1], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[1,1]), freq = FALSE, xlab="X_bar")
-hist(X$x1[,2], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[2,1]), freq = FALSE, xlab="X_bar")
-hist(X$x1[,3], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[3,1]), freq = FALSE, xlab="X_bar")
+library(fpp2)
+data(ausbeer)
+autoplot(ausbeer)
 
 ```
 
-## Distribuição exponencial
+## Separando dois trechos da serie
 
 ```{r}
-layout(rbind(c(1,2,3,4)))
-plot(dexp(x = seq(0,1,0.05),rate=2),type="l", ylab="f(x)", main="fdp-Exponencial(1/2)", xlab="X")
-hist(X$x2[,1], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[1,2]), freq = FALSE, xlab="X_bar")
-hist(X$x2[,2], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[2,2]), freq = FALSE, xlab="X_bar")
-hist(X$x2[,3], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[3,2]), freq = FALSE, xlab="X_bar")
-
-```
-
-## Distribuição Chi-Quadrado
-
-```{r}
-layout(rbind(c(1,2,3,4)))
-plot(dchisq(x = seq(0,1,0.05),df=1),type="l", ylab="f(x)", main="fdp-QuiQuad(1)", xlab="X")
-hist(X$x3[,1], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[1,3]), freq = FALSE, xlab="X_bar")
-hist(X$x3[,2], col = "lightblue3", border = "dark gray",
-     main = paste("n = ", n[2,3]), freq = FALSE, xlab="X_bar")
-hist(X$x3[,3], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[3,3]), freq = FALSE, xlab="X_bar")
-
-```
-
-## Distribuição Beta
-
-```{r}
-layout(rbind(c(1,2,3,4)))
-plot(dbeta(x = seq(0,1,0.05), shape1 = .2, shape2 = .2),type="l", ylab="f(x)", main="fdp-Beta(0.2, 0.2)", xlab="X")
-hist(X$x4[,1], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[1,4]), freq = FALSE, xlab="X_bar")
-hist(X$x4[,2], col = "lightblue3", border = "dark gray", 
-     main = paste("n = ", n[2,4]), freq = FALSE, xlab="X_bar")
-hist(X$x4[,3], col = "lightblue3", border = "dark gray",
-     main = paste("n = ", n[3,4]), freq = FALSE, xlab="X_bar")
-```
-
-```{r}
-par(def.par)  # restaurando
-```
-
-## Reamostragem
-
-```{r}
-# Intervalos de Confiança Bootstrap
-library(boot)
-set.seed(123)
-dados1 <- rnorm(n=100, mean = 5, sd = 1)
-summary(dados1)
-bootMediana <- function(dados, indices) median(dados[indices])
-b <- boot(dados1, bootMediana, R = 1000)
-b
-plot(b)
-boot.ci(b, conf=0.95, type = c("norm", "basic", "perc", "bca"))
+library(tsibble)
+library(feasts)
+ausbeer2 <- as_tsibble(ausbeer)
+serie1 <- ausbeer2 %>% filter_index("1960 Q1" ~ "1964 Q4")
+gg_season(serie1)
+gg_subseries(serie1)
+serie2 <- ausbeer2 %>% filter_index("2005 Q1" ~ "2009 Q4")
+gg_season(serie2)
+gg_subseries(serie2)
 ```

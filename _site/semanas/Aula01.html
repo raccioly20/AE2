@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.290">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Ricardo Accioly">
-<meta name="dcterms.date" content="2022-09-08">
+<meta name="dcterms.date" content="2023-04-08">
 
-<title>Análise Estatística II - Distribuições de Probabilidade</title>
+<title>Análise Estatística II - Análise Exploratória de Series Temporais</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,9 +19,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -48,43 +49,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -127,13 +98,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
-<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
-
-<meta name="twitter:title" content="Análise Estatística II - Distribuições de Probabilidade">
-<meta name="twitter:description" content="Buscando obter um modelo para o número de fraudes com cartão numa loja, foram coletadas, ao longo de 1 ano, o número de ocorrências por semana. Os dados obtidos foram:">
-<meta name="twitter:image" content="../images/AE2.png">
+<meta name="twitter:title" content="Análise Estatística II - Análise Exploratória de Series Temporais">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="images/AE2.png">
 <meta name="twitter:creator" content="@r_accioly">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -142,11 +110,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Distribuições de Probabilidade</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../semanas/Aula01.html">Conteúdo Semanal</a></li><li class="breadcrumb-item"><a href="../semanas/Aula01.html">Aula 01</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -154,80 +127,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/raccioly20" title="GitHub" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="https://twitter.com/r_accioly" title="Twitter" class="sidebar-tool px-1"><i class="bi bi-twitter"></i></a>
-  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+    <a href="https://github.com/raccioly20" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+    <a href="https://twitter.com/r_accioly" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">Informação da disciplina</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Informação da disciplina</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../visao-do-curso.html" class="sidebar-item-text sidebar-link">Visão Geral</a>
+  <a href="../visao-do-curso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visão Geral</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Cronograma</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cronograma</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Conteúdo Semanal</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Conteúdo Semanal</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula01.html" class="sidebar-item-text sidebar-link active">Aula 01</a>
+  <a href="../semanas/Aula01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Aula 01</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula02.html" class="sidebar-item-text sidebar-link">Aula 02</a>
+  <a href="../semanas/Aula02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aula 02</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula03.html" class="sidebar-item-text sidebar-link">Aula 03</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula04.html" class="sidebar-item-text sidebar-link">Aula 04</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula05.html" class="sidebar-item-text sidebar-link">Aula 05</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../semanas/Aula06.html" class="sidebar-item-text sidebar-link">Aula 06</a>
+  <a href="../semanas/Aula03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aula 03</span></a>
   </div>
 </li>
       </ul>
@@ -235,41 +200,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#carregando-bibliotecas" id="toc-carregando-bibliotecas" class="nav-link active" data-scroll-target="#carregando-bibliotecas">Carregando bibliotecas</a></li>
-  <li><a href="#fraudes-em-uma-loja" id="toc-fraudes-em-uma-loja" class="nav-link" data-scroll-target="#fraudes-em-uma-loja">Fraudes em uma loja</a></li>
-  <li><a href="#criando-uma-tabela" id="toc-criando-uma-tabela" class="nav-link" data-scroll-target="#criando-uma-tabela">Criando uma tabela</a></li>
-  <li><a href="#visualizando-a-distribuição" id="toc-visualizando-a-distribuição" class="nav-link" data-scroll-target="#visualizando-a-distribuição">Visualizando a distribuição</a></li>
-  <li><a href="#probabilidade-acumulada" id="toc-probabilidade-acumulada" class="nav-link" data-scroll-target="#probabilidade-acumulada">Probabilidade Acumulada</a></li>
-  <li><a href="#distribuições-de-probabilidade-no-r" id="toc-distribuições-de-probabilidade-no-r" class="nav-link" data-scroll-target="#distribuições-de-probabilidade-no-r">Distribuições de Probabilidade no R</a></li>
-  <li><a href="#exemplo-de-distribuição-discreta" id="toc-exemplo-de-distribuição-discreta" class="nav-link" data-scroll-target="#exemplo-de-distribuição-discreta">Exemplo de distribuição discreta</a></li>
-  <li><a href="#probabilidades-de-uma-binomial" id="toc-probabilidades-de-uma-binomial" class="nav-link" data-scroll-target="#probabilidades-de-uma-binomial">Probabilidades de uma binomial</a></li>
-  <li><a href="#probabilidade-acumulada-1" id="toc-probabilidade-acumulada-1" class="nav-link" data-scroll-target="#probabilidade-acumulada-1">Probabilidade Acumulada</a></li>
-  <li><a href="#quantis" id="toc-quantis" class="nav-link" data-scroll-target="#quantis">Quantis</a></li>
-  <li><a href="#números-aleatórios" id="toc-números-aleatórios" class="nav-link" data-scroll-target="#números-aleatórios">Números aleatórios</a></li>
-  <li><a href="#probabilidades-de-uma-poisson" id="toc-probabilidades-de-uma-poisson" class="nav-link" data-scroll-target="#probabilidades-de-uma-poisson">Probabilidades de uma Poisson</a></li>
-  <li><a href="#lei-de-benford" id="toc-lei-de-benford" class="nav-link" data-scroll-target="#lei-de-benford">Lei de Benford</a></li>
-  <li><a href="#exemplo-de-distribuição-contínua" id="toc-exemplo-de-distribuição-contínua" class="nav-link" data-scroll-target="#exemplo-de-distribuição-contínua">Exemplo de distribuição contínua</a></li>
-  <li><a href="#distribuição-exponencial" id="toc-distribuição-exponencial" class="nav-link" data-scroll-target="#distribuição-exponencial">Distribuição Exponencial</a></li>
-  <li><a href="#distribuição-normal" id="toc-distribuição-normal" class="nav-link" data-scroll-target="#distribuição-normal">Distribuição Normal</a></li>
-  <li><a href="#distribuição-normal-1" id="toc-distribuição-normal-1" class="nav-link" data-scroll-target="#distribuição-normal-1">Distribuição Normal</a></li>
-  <li><a href="#função-distribuição-acumulada" id="toc-função-distribuição-acumulada" class="nav-link" data-scroll-target="#função-distribuição-acumulada">Função distribuição acumulada</a></li>
-  <li><a href="#quantil-da-normal" id="toc-quantil-da-normal" class="nav-link" data-scroll-target="#quantil-da-normal">Quantil da Normal</a></li>
-  <li><a href="#números-aleatórios-1" id="toc-números-aleatórios-1" class="nav-link" data-scroll-target="#números-aleatórios-1">Números Aleatórios</a></li>
-  <li><a href="#gráfico-qq-normal" id="toc-gráfico-qq-normal" class="nav-link" data-scroll-target="#gráfico-qq-normal">Gráfico QQ Normal</a></li>
-  <li><a href="#gráfico-qq-normal-1" id="toc-gráfico-qq-normal-1" class="nav-link" data-scroll-target="#gráfico-qq-normal-1">Gráfico QQ Normal</a></li>
-  <li><a href="#gráfico-qq-normal-2" id="toc-gráfico-qq-normal-2" class="nav-link" data-scroll-target="#gráfico-qq-normal-2">Gráfico QQ Normal</a></li>
-  <li><a href="#como-fica-a-exponencial" id="toc-como-fica-a-exponencial" class="nav-link" data-scroll-target="#como-fica-a-exponencial">Como fica a exponencial?</a></li>
-  <li><a href="#como-fica-a-t" id="toc-como-fica-a-t" class="nav-link" data-scroll-target="#como-fica-a-t">Como fica a t?</a></li>
-  <li><a href="#como-fica-a-t-1" id="toc-como-fica-a-t-1" class="nav-link" data-scroll-target="#como-fica-a-t-1">Como fica a t?</a></li>
-  <li><a href="#como-fica-a-t-2" id="toc-como-fica-a-t-2" class="nav-link" data-scroll-target="#como-fica-a-t-2">Como fica a t</a></li>
-  <li><a href="#outro-gráfico-qq" id="toc-outro-gráfico-qq" class="nav-link" data-scroll-target="#outro-gráfico-qq">Outro gráfico QQ</a></li>
-  <li><a href="#como-fica-a-lognormal" id="toc-como-fica-a-lognormal" class="nav-link" data-scroll-target="#como-fica-a-lognormal">Como fica a Lognormal?</a></li>
+  <li><a href="#séries-temporais" id="toc-séries-temporais" class="nav-link active" data-scroll-target="#séries-temporais">Séries Temporais</a></li>
+  <li><a href="#carregando-uma-série-de-um-arquivo-excel" id="toc-carregando-uma-série-de-um-arquivo-excel" class="nav-link" data-scroll-target="#carregando-uma-série-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</a></li>
+  <li><a href="#transformando-os-dados-para-o-formato-tsibble" id="toc-transformando-os-dados-para-o-formato-tsibble" class="nav-link" data-scroll-target="#transformando-os-dados-para-o-formato-tsibble">Transformando os dados para o formato tsibble</a></li>
+  <li><a href="#visualizando-uma-série" id="toc-visualizando-uma-série" class="nav-link" data-scroll-target="#visualizando-uma-série">Visualizando uma série</a></li>
+  <li><a href="#transformando-e-visualizando-uma-serie" id="toc-transformando-e-visualizando-uma-serie" class="nav-link" data-scroll-target="#transformando-e-visualizando-uma-serie">Transformando e Visualizando uma Serie</a></li>
+  <li><a href="#obtendo-e-visualizando-uma-st-econômica" id="toc-obtendo-e-visualizando-uma-st-econômica" class="nav-link" data-scroll-target="#obtendo-e-visualizando-uma-st-econômica">Obtendo e Visualizando uma ST econômica</a></li>
+  <li><a href="#vamos-selecionar-somente-o-fechamento-close" id="toc-vamos-selecionar-somente-o-fechamento-close" class="nav-link" data-scroll-target="#vamos-selecionar-somente-o-fechamento-close">Vamos selecionar somente o fechamento (close)</a></li>
   </ul>
 </nav>
     </div>
@@ -278,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Distribuições de Probabilidade</h1>
+<h1 class="title">Análise Exploratória de Series Temporais</h1>
 </div>
 
 
@@ -295,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2022</p>
+      <p class="date">April 8, 2023</p>
     </div>
   </div>
   
@@ -305,496 +249,249 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="carregando-bibliotecas" class="level2">
-<h2 class="anchored" data-anchor-id="carregando-bibliotecas">Carregando bibliotecas</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parametros para imagens</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">8</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.asp =</span> <span class="fl">0.618</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.retina =</span> <span class="dv">3</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">300</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">out.width =</span> <span class="st">"80%"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="séries-temporais" class="level2">
+<h2 class="anchored" data-anchor-id="séries-temporais">Séries Temporais</h2>
+<p>Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais.</p>
 </section>
-<section id="fraudes-em-uma-loja" class="level2">
-<h2 class="anchored" data-anchor-id="fraudes-em-uma-loja">Fraudes em uma loja</h2>
-<p>Buscando obter um modelo para o número de fraudes com cartão numa loja, foram coletadas, ao longo de 1 ano, o número de ocorrências por semana. Os dados obtidos foram:</p>
-<ul>
-<li><p>0 ocorrências em 9 semanas</p></li>
-<li><p>1 ocorrência em 14 semanas</p></li>
-<li><p>2 ocorrências em 13 semanas</p></li>
-<li><p>3 ocorrências em 9 semanas</p></li>
-<li><p>4 ocorrências em 4 semanas</p></li>
-<li><p>5 ocorrências em 2 semanas</p></li>
-<li><p>6 ocorrências em 1 semana</p></li>
-</ul>
+<section id="carregando-uma-série-de-um-arquivo-excel" class="level2">
+<h2 class="anchored" data-anchor-id="carregando-uma-série-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>semanas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(semanas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>consumo_resid <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"e:/Onedrive/github/ae2/semanas/consumo_residencial.xlsx"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(consumo_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 52</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>probabilidade <span class="ot">&lt;-</span> semanas<span class="sc">/</span><span class="dv">52</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>probabilidade</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.17307692 0.26923077 0.25000000 0.17307692 0.07692308 0.03846154 0.01923077</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(probabilidade, <span class="dv">2</span>) <span class="co"># arredondando para 2 casas decimais</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.17 0.27 0.25 0.17 0.08 0.04 0.02</code></pre>
+<pre><code>      data                        mwh_residencial   
+ Min.   :2004-01-01 00:00:00.00   Min.   : 6291091  
+ 1st Qu.:2008-09-23 12:00:00.00   1st Qu.: 7954710  
+ Median :2013-06-16 00:00:00.00   Median :10275550  
+ Mean   :2013-06-16 08:25:15.78   Mean   : 9899939  
+ 3rd Qu.:2018-03-08 18:00:00.00   3rd Qu.:11537543  
+ Max.   :2022-12-01 00:00:00.00   Max.   :13924000  </code></pre>
 </div>
 </div>
 </section>
-<section id="criando-uma-tabela" class="level2">
-<h2 class="anchored" data-anchor-id="criando-uma-tabela">Criando uma tabela</h2>
+<section id="transformando-os-dados-para-o-formato-tsibble" class="level2">
+<h2 class="anchored" data-anchor-id="transformando-os-dados-para-o-formato-tsibble">Transformando os dados para o formato tsibble</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fraude_loja <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n_fraudes=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">prob=</span>probabilidade)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fraude_loja</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  n_fraudes       prob
-1         0 0.17307692
-2         1 0.26923077
-3         2 0.25000000
-4         3 0.17307692
-5         4 0.07692308
-6         5 0.03846154
-7         6 0.01923077</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fraude_loja <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> n_fraudes </th>
-   <th style="text-align:right;"> prob </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 0.17 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0.27 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.25 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0.17 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 0.08 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 0.04 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0.02 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</section>
-<section id="visualizando-a-distribuição" class="level2">
-<h2 class="anchored" data-anchor-id="visualizando-a-distribuição">Visualizando a distribuição</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fraudes <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fraudes, probabilidade, <span class="at">xlab =</span> <span class="st">"Numero de fraudes numa semana"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidade"</span>, <span class="at">type =</span> <span class="st">"h"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="probabilidade-acumulada" class="level2">
-<h2 class="anchored" data-anchor-id="probabilidade-acumulada">Probabilidade Acumulada</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prob_acum <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(probabilidade)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fraude_loja2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n_fraudes=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">prob_acum=</span>prob_acum)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fraude_loja2 <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> n_fraudes </th>
-   <th style="text-align:right;"> prob_acum </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 0.17 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0.44 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.69 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0.87 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 0.94 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 0.98 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 1.00 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fraudes, prob_acum, <span class="at">xlab =</span> <span class="st">"Numero de fraudes numa semana"</span>,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">ylab =</span> <span class="st">"Probabilidade Acumulada (P(X&lt;=x))"</span>, <span class="at">type =</span> <span class="st">"S"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="distribuições-de-probabilidade-no-r" class="level2">
-<h2 class="anchored" data-anchor-id="distribuições-de-probabilidade-no-r">Distribuições de Probabilidade no R</h2>
-<p>No R nós temos quatro funções que podem nos fornecer elementos de uma distribuição de probabilidade:</p>
-<ul>
-<li><p>Densidade ou probabilidade</p></li>
-<li><p>Probabilidade acumulada / Função distribuição acumulada</p></li>
-<li><p>Quantis</p></li>
-<li><p>Números aleatórios</p></li>
-</ul>
-</section>
-<section id="exemplo-de-distribuição-discreta" class="level2">
-<h2 class="anchored" data-anchor-id="exemplo-de-distribuição-discreta">Exemplo de distribuição discreta</h2>
-</section>
-<section id="probabilidades-de-uma-binomial" class="level2">
-<h2 class="anchored" data-anchor-id="probabilidades-de-uma-binomial">Probabilidades de uma binomial</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dbinom</span>(x, <span class="at">size=</span><span class="dv">50</span>, <span class="at">prob =</span> <span class="fl">0.30</span>), <span class="at">type=</span><span class="st">"h"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="probabilidade-acumulada-1" class="level2">
-<h2 class="anchored" data-anchor-id="probabilidade-acumulada-1">Probabilidade Acumulada</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">pbinom</span>(x, <span class="at">size=</span><span class="dv">50</span>, <span class="at">prob =</span> <span class="fl">0.30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="quantis" class="level2">
-<h2 class="anchored" data-anchor-id="quantis">Quantis</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qbinom</span>(<span class="fu">seq</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>,<span class="fl">0.1</span>), <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob=</span><span class="fl">0.30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 11 12 13 14 15 16 17 18 19</code></pre>
-</div>
-</div>
-</section>
-<section id="números-aleatórios" class="level2">
-<h2 class="anchored" data-anchor-id="números-aleatórios">Números aleatórios</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">50</span>, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob=</span><span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 13 15 23 15 18 17 16 17 14 14 21 16 15 18 14 11 14 12 16 14 12 14 15 18 17
-[26] 20 15 24 12 12 12 13 18 12 22  9 18 10 10 15 13 14 15  8 13 12 12 14 13 13</code></pre>
-</div>
-</div>
-</section>
-<section id="probabilidades-de-uma-poisson" class="level2">
-<h2 class="anchored" data-anchor-id="probabilidades-de-uma-poisson">Probabilidades de uma Poisson</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dpois</span>(x, <span class="at">lambda =</span> <span class="fl">1.9</span>), <span class="at">type=</span><span class="st">"h"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="lei-de-benford" class="level2">
-<h2 class="anchored" data-anchor-id="lei-de-benford">Lei de Benford</h2>
-<p>Em 1996 T.P. Hill mosrou que podemos aproximar as frequencias dos dígitos usando a expressão abaixo.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>x)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>bendford <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>x, <span class="at">prob=</span>prob)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>bendford <span class="sc">%&gt;%</span> <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-
-<table class=" lightable-minimal" style="font-family: &quot;Trebuchet MS&quot;, verdana, sans-serif; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:right;"> x </th>
-   <th style="text-align:right;"> prob </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 0.301 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 0.176 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 0.125 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 0.097 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 0.079 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 0.067 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 0.058 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 0.051 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 0.046 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</section>
-<section id="exemplo-de-distribuição-contínua" class="level2">
-<h2 class="anchored" data-anchor-id="exemplo-de-distribuição-contínua">Exemplo de distribuição contínua</h2>
-</section>
-<section id="distribuição-exponencial" class="level2">
-<h2 class="anchored" data-anchor-id="distribuição-exponencial">Distribuição Exponencial</h2>
-<p>Tempo até uma falha</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dexp</span>(x, <span class="dv">4</span>), <span class="dv">0</span>, <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"t"</span>, <span class="at">ylab =</span> <span class="st">"dexp(t, 4)"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.001</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span> (x, <span class="fu">dexp</span>(x, <span class="dv">4</span>), <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">col=</span><span class="st">"grey"</span>) </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fu">dexp</span>(<span class="fl">0.3</span>, <span class="dv">4</span>), <span class="fu">expression</span>(<span class="fu">P</span>(T <span class="sc">&lt;=</span> <span class="dv">0</span>,<span class="dv">5</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="distribuição-normal" class="level2">
-<h2 class="anchored" data-anchor-id="distribuição-normal">Distribuição Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.1</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dnorm</span>(x, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="at">type=</span><span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"Quantis da Normal Padrão"</span>, <span class="at">ylab=</span><span class="st">"Densidade de Probabilidade"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="distribuição-normal-1" class="level2">
-<h2 class="anchored" data-anchor-id="distribuição-normal-1">Distribuição Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.1</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, <span class="fu">dnorm</span>(x, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="at">type=</span><span class="st">"l"</span>, <span class="at">xlab =</span> <span class="st">"Quantis da Normal Padrão"</span>, <span class="at">ylab=</span><span class="st">"Densidade de Probabilidade"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.01</span>) </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(y, <span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>), <span class="at">type =</span> <span class="st">"h"</span>,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="at">col =</span> <span class="st">"grey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="função-distribuição-acumulada" class="level2">
-<h2 class="anchored" data-anchor-id="função-distribuição-acumulada">Função distribuição acumulada</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>prob_acum <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(x, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, prob_acum, <span class="at">xlab =</span> <span class="st">"Quantis da Normal Padrão"</span>,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="at">ylab =</span> <span class="st">"FDA (P(X&lt;=x))"</span>, <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="quantil-da-normal" class="level2">
-<h2 class="anchored" data-anchor-id="quantil-da-normal">Quantil da Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>,<span class="fl">0.95</span>), <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.6744898  0.0000000  0.6744898  1.6448536</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.95</span>,<span class="fl">0.975</span>,<span class="fl">0.99</span>), <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.644854 1.959964 2.326348</code></pre>
-</div>
-</div>
-</section>
-<section id="números-aleatórios-1" class="level2">
-<h2 class="anchored" data-anchor-id="números-aleatórios-1">Números Aleatórios</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] -0.51213909  2.48518368  1.00782615  0.29281457 -0.20895936  1.85809239
- [7] -0.06602641 -0.16276495 -0.19986068  0.30056173</code></pre>
-</div>
-</div>
-</section>
-<section id="gráfico-qq-normal" class="level2">
-<h2 class="anchored" data-anchor-id="gráfico-qq-normal">Gráfico QQ Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="gráfico-qq-normal-1" class="level2">
-<h2 class="anchored" data-anchor-id="gráfico-qq-normal-1">Gráfico QQ Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="gráfico-qq-normal-2" class="level2">
-<h2 class="anchored" data-anchor-id="gráfico-qq-normal-2">Gráfico QQ Normal</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="como-fica-a-exponencial" class="level2">
-<h2 class="anchored" data-anchor-id="como-fica-a-exponencial">Como fica a exponencial?</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">100</span>, <span class="at">rate=</span><span class="dv">2</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="como-fica-a-t" class="level2">
-<h2 class="anchored" data-anchor-id="como-fica-a-t">Como fica a t?</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">100</span>, <span class="at">df=</span><span class="dv">2</span>)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="como-fica-a-t-1" class="level2">
-<h2 class="anchored" data-anchor-id="como-fica-a-t-1">Como fica a t?</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">100</span>, <span class="at">df=</span><span class="dv">5</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="como-fica-a-t-2" class="level2">
-<h2 class="anchored" data-anchor-id="como-fica-a-t-2">Como fica a t</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.1</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x, <span class="at">df=</span><span class="dv">2</span>), <span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">"Densidade de Probabilidade"</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.5</span>))</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>), <span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">1</span>,<span class="fl">0.5</span>, <span class="fu">c</span>(<span class="st">"t"</span>, <span class="st">"Normal"</span>), <span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="outro-gráfico-qq" class="level2">
-<h2 class="anchored" data-anchor-id="outro-gráfico-qq">Outro gráfico QQ</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Carregando pacotes exigidos: carData</code></pre>
+<pre><code>
+Attaching package: 'tsibble'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>consumo_resid<span class="sc">$</span>data <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2004-01-01"</span>), <span class="fu">as.Date</span>(<span class="st">"2022-12-01"</span>), <span class="at">by =</span> <span class="st">"1 month"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> <span class="fu">tsibble</span>(<span class="fu">yearmonth</span>(consumo_resid<span class="sc">$</span>data), <span class="at">value=</span>consumo_resid<span class="sc">$</span>mwh_residencial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using `&lt;mth&gt;` as index variable.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> cons_resid <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">ano_mes =</span> <span class="st">`</span><span class="at">&lt;mth&gt;</span><span class="st">`</span>, <span class="at">mwh =</span> value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualizando-uma-série" class="level2">
+<h2 class="anchored" data-anchor-id="visualizando-uma-série">Visualizando uma série</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: fabletools</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-4-1.png" class="quarto-discovered-preview-image img-fluid" style="width:80.0%"></p>
+</div>
+</div>
+</section>
+<section id="transformando-e-visualizando-uma-serie" class="level2">
+<h2 class="anchored" data-anchor-id="transformando-e-visualizando-uma-serie">Transformando e Visualizando uma Serie</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> cons_resid <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">mwh_raiz =</span> <span class="fu">sqrt</span>(mwh),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_rcub =</span> (mwh)<span class="sc">^</span><span class="fl">0.33333</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_log =</span> <span class="fu">log</span>(mwh),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_inv =</span> (mwh)<span class="sc">^-</span><span class="dv">1</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_raiz)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Raiz do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_rcub)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Raiz Cúbica do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_log)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Log do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_inv)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Inversa do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+</div>
+</section>
+<section id="obtendo-e-visualizando-uma-st-econômica" class="level2">
+<h2 class="anchored" data-anchor-id="obtendo-e-visualizando-uma-st-econômica">Obtendo e Visualizando uma ST econômica</h2>
+<p>Vamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços das ações da Apple (AAPL) entre 2000 e 2022.</p>
+<p>A biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: xts</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: zoo</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-Attaching package: 'car'</code></pre>
+Attaching package: 'zoo'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:dplyr':
+<pre><code>The following object is masked from 'package:tsibble':
 
-    recode</code></pre>
+    index</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:purrr':
+<pre><code>The following objects are masked from 'package:base':
 
-    some</code></pre>
+    as.Date, as.Date.numeric</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">22</span>)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rt</span>(<span class="dv">100</span>, <span class="at">df=</span><span class="dv">5</span>)</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(x, <span class="at">distribution=</span><span class="st">"norm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+################################### WARNING ###################################
+# We noticed you have dplyr installed. The dplyr lag() function breaks how    #
+# base R's lag() function is supposed to work, which breaks lag(my_xts).      #
+#                                                                             #
+# Calls to lag(my_xts) that you enter or source() into this session won't     #
+# work correctly.                                                             #
+#                                                                             #
+# All package code is unaffected because it is protected by the R namespace   #
+# mechanism.                                                                  #
+#                                                                             #
+# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
+#                                                                             #
+# You can use stats::lag() to make sure you're not using dplyr::lag(), or you #
+# can add conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop   #
+# dplyr from breaking base R's lag() function.                                #
+################################### WARNING ###################################</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'xts'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: TTR</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getSymbols</span>(<span class="st">"AAPL"</span>,<span class="at">from=</span><span class="st">"2020-01-02"</span>, <span class="at">to=</span><span class="st">"2022-12-31"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 35 18</code></pre>
+<pre><code>[1] "AAPL"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(x, <span class="at">distribution=</span><span class="st">"t"</span>, <span class="at">df=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid" width="672"></p>
-</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(AAPL) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 35 18</code></pre>
+<pre><code>[1] 756   6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted
+2020-01-02   74.0600   75.1500  73.7975    75.0875   135480400      73.44939
+2020-01-03   74.2875   75.1450  74.1250    74.3575   146322800      72.73532
+2020-01-06   73.4475   74.9900  73.1875    74.9500   118387200      73.31487
+2020-01-07   74.9600   75.2250  74.3700    74.5975   108872000      72.97008
+2020-01-08   74.2900   76.1100  74.2900    75.7975   132079200      74.14388
+2020-01-09   76.8100   77.6075  76.5500    77.4075   170108400      75.71877</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted
+2022-12-22    134.35    134.56   130.30     132.23    77852100      132.0284
+2022-12-23    130.92    132.42   129.64     131.86    63814900      131.6590
+2022-12-27    131.38    131.41   128.72     130.03    69007800      129.8318
+2022-12-28    129.67    131.03   125.87     126.04    85438400      125.8479
+2022-12-29    127.99    130.48   127.73     129.61    75703700      129.4124
+2022-12-30    128.41    129.95   127.43     129.93    77034200      129.7319</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A biblioteca tem uma forma diferenciada de apresentação das series financeiras</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chartSeries</span>(AAPL,<span class="at">theme=</span><span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula01_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>An xts object on 2020-01-02 / 2022-12-30 containing: 
+  Data:    double [756, 6]
+  Columns: AAPL.Open, AAPL.High, AAPL.Low, AAPL.Close, AAPL.Volume ... with 1 more column
+  Index:   Date [756] (TZ: "UTC")
+  xts Attributes:
+    $ src    : chr "yahoo"
+    $ updated: POSIXct[1:1], format: "2023-04-08 15:56:54"</code></pre>
+</div>
+</div>
+<p>Veja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Index              AAPL.Open        AAPL.High         AAPL.Low     
+ Min.   :2020-01-02   Min.   : 57.02   Min.   : 57.12   Min.   : 53.15  
+ 1st Qu.:2020-09-30   1st Qu.:115.92   1st Qu.:117.28   1st Qu.:114.13  
+ Median :2021-07-01   Median :135.79   Median :137.20   Median :133.75  
+ Mean   :2021-07-01   Mean   :130.23   Mean   :131.89   Mean   :128.61  
+ 3rd Qu.:2022-03-31   3rd Qu.:150.26   3rd Qu.:151.90   3rd Qu.:149.03  
+ Max.   :2022-12-30   Max.   :182.63   Max.   :182.94   Max.   :179.12  
+   AAPL.Close      AAPL.Volume        AAPL.Adjusted  
+ Min.   : 56.09   Min.   : 35195900   Min.   : 55.0  
+ 1st Qu.:115.74   1st Qu.: 76364700   1st Qu.:114.0  
+ Median :135.38   Median : 94935800   Median :134.5  
+ Mean   :130.31   Mean   :112092019   Mean   :129.1  
+ 3rd Qu.:150.71   3rd Qu.:129632700   3rd Qu.:149.9  
+ Max.   :182.01   Max.   :426510000   Max.   :180.7  </code></pre>
 </div>
 </div>
 </section>
-<section id="como-fica-a-lognormal" class="level2">
-<h2 class="anchored" data-anchor-id="como-fica-a-lognormal">Como fica a Lognormal?</h2>
+<section id="vamos-selecionar-somente-o-fechamento-close" class="level2">
+<h2 class="anchored" data-anchor-id="vamos-selecionar-somente-o-fechamento-close">Vamos selecionar somente o fechamento (close)</h2>
+<p>Para trabalhar com somente uma das series vamos selecionar sua coluna de dados</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rlnorm</span>(<span class="dv">100</span>, <span class="at">meanlog =</span> <span class="dv">0</span>, <span class="at">sdlog =</span> <span class="dv">1</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>AAPL_C <span class="ot">&lt;-</span> AAPL[,<span class="st">"AAPL.Close"</span>]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chartSeries</span>(AAPL_C,<span class="at">theme=</span><span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="Aula01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
 
@@ -944,9 +641,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1011,6 +722,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1066,6 +863,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">Baseado em https://sta210-s22.github.io/website/</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
 

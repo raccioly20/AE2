@@ -11,9 +11,3 @@ As mudanças serão constantes ao longo do semestre.
 [Aula 02](/semanas/aula02.html)
 
 [Aula 03](/semanas/aula03.html)
-
-[Aula 04](/semanas/aula04.html)
-
-[Aula 05](/semanas/aula05.html)
-
-[Aula 06](/semanas/aula06.html)
