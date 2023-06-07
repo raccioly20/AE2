@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
-
+<meta name="generator" content="quarto-1.3.340">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Ricardo Accioly">
-<meta name="dcterms.date" content="2023-04-08">
-
+<meta name="dcterms.date" content="2023-06-07">
 <title>Análise Estatística II - Explorando Series Temporais</title>
 <style>
 code{white-space: pre-wrap;}
@@ -58,13 +55,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../semanas/Aula04.html" rel="next">
 <link href="../semanas/Aula02.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -76,8 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,20 +92,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit"
   }
 }</script>
-
-
 <meta name="twitter:title" content="Análise Estatística II - Explorando Series Temporais">
 <meta name="twitter:image" content="images/AE2.png">
 <meta name="twitter:creator" content="@r_accioly">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -120,16 +111,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
-      <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/raccioly20" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/r_accioly" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
@@ -143,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
  <span class="menu-text">Informação da disciplina</span></a>
@@ -151,8 +137,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../visao-do-curso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Visão Geral</span></a>
@@ -165,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -174,8 +160,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../semanas/Aula01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Aula 01</span></a>
@@ -193,28 +179,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Aula 03</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aula 04</span></a>
+  </div>
+</li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#carregando-e-visualizando-dados-de-produção-de-cerveja" id="toc-carregando-e-visualizando-dados-de-produção-de-cerveja" class="nav-link active" data-scroll-target="#carregando-e-visualizando-dados-de-produção-de-cerveja">Carregando e visualizando dados de Produção de Cerveja</a></li>
+<li><a href="#carregando-e-visualizando-dados-de-produ%C3%A7%C3%A3o-de-cerveja" id="toc-carregando-e-visualizando-dados-de-produção-de-cerveja" class="nav-link active" data-scroll-target="#carregando-e-visualizando-dados-de-produ%C3%A7%C3%A3o-de-cerveja">Carregando e visualizando dados de Produção de Cerveja</a></li>
   <li><a href="#separando-dois-trechos-da-serie" id="toc-separando-dois-trechos-da-serie" class="nav-link" data-scroll-target="#separando-dois-trechos-da-serie">Separando dois trechos da serie</a></li>
-  </ul>
-</nav>
+  <li><a href="#decomposi%C3%A7%C3%A3o-aditiva" id="toc-decomposição-aditiva" class="nav-link" data-scroll-target="#decomposi%C3%A7%C3%A3o-aditiva">Decomposição Aditiva</a></li>
+  <li><a href="#decomposi%C3%A7%C3%A3o-multiplicativa" id="toc-decomposição-multiplicativa" class="nav-link" data-scroll-target="#decomposi%C3%A7%C3%A3o-multiplicativa">Decomposição Multiplicativa</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Explorando Series Temporais</h1>
 </div>
 
@@ -232,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 8, 2023</p>
+      <p class="date">June 7, 2023</p>
     </div>
   </div>
   
@@ -240,22 +228,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header>
-
+</header><section id="carregando-e-visualizando-dados-de-produção-de-cerveja" class="level2"><h2 class="anchored" data-anchor-id="carregando-e-visualizando-dados-de-produção-de-cerveja">Carregando e visualizando dados de Produção de Cerveja</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parametros para imagens</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">8</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.asp =</span> <span class="fl">0.618</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.retina =</span> <span class="dv">3</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">300</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">out.width =</span> <span class="st">"80%"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="carregando-e-visualizando-dados-de-produção-de-cerveja" class="level2">
-<h2 class="anchored" data-anchor-id="carregando-e-visualizando-dados-de-produção-de-cerveja">Carregando e visualizando dados de Produção de Cerveja</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp2-package/">fpp2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Registered S3 method overwritten by 'quantmod':
   method            from
@@ -265,23 +240,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>── Attaching packages ────────────────────────────────────────────── fpp2 2.5 ──</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ ggplot2   3.4.1     ✔ fma       2.5  
+<pre><code>✔ ggplot2   3.4.2     ✔ fma       2.5  
 ✔ forecast  8.21      ✔ expsmooth 2.3  </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ausbeer)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ausbeer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">ausbeer</span><span class="op">)</span></span>
+<span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ausbeer</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Aula03_files/figure-html/unnamed-chunk-2-1.png" class="quarto-discovered-preview-image img-fluid" style="width:80.0%"></p>
+<p><img src="Aula03_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
-</section>
-<section id="separando-dois-trechos-da-serie" class="level2">
-<h2 class="anchored" data-anchor-id="separando-dois-trechos-da-serie">Separando dois trechos da serie</h2>
+</section><section id="separando-dois-trechos-da-serie" class="level2"><h2 class="anchored" data-anchor-id="separando-dois-trechos-da-serie">Separando dois trechos da serie</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'tsibble'</code></pre>
@@ -291,7 +264,7 @@ Attaching package: 'tsibble'</code></pre>
 
     intersect, setdiff, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Carregando pacotes exigidos: fabletools</code></pre>
 </div>
@@ -300,35 +273,35 @@ Attaching package: 'tsibble'</code></pre>
 Attaching package: 'fabletools'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:forecast':
+<pre><code>The following object is masked from 'package:forecast':
 
-    accuracy, forecast</code></pre>
+    accuracy</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ausbeer2 <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(ausbeer)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>serie1 <span class="ot">&lt;-</span> ausbeer2 <span class="sc">%&gt;%</span> <span class="fu">filter_index</span>(<span class="st">"1960 Q1"</span> <span class="sc">~</span> <span class="st">"1964 Q4"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_season</span>(serie1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ausbeer2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">ausbeer</span><span class="op">)</span></span>
+<span><span class="va">serie1</span> <span class="op">&lt;-</span> <span class="va">ausbeer2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/filter_index.html">filter_index</a></span><span class="op">(</span><span class="st">"1960 Q1"</span> <span class="op">~</span> <span class="st">"1964 Q4"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_season.html">gg_season</a></span><span class="op">(</span><span class="va">serie1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Plot variable not specified, automatically selected `y = value`</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="Aula03_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_subseries</span>(serie1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_subseries.html">gg_subseries</a></span><span class="op">(</span><span class="va">serie1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Plot variable not specified, automatically selected `y = value`</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="Aula03_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>serie2 <span class="ot">&lt;-</span> ausbeer2 <span class="sc">%&gt;%</span> <span class="fu">filter_index</span>(<span class="st">"2005 Q1"</span> <span class="sc">~</span> <span class="st">"2009 Q4"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_season</span>(serie2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">serie2</span> <span class="op">&lt;-</span> <span class="va">ausbeer2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/filter_index.html">filter_index</a></span><span class="op">(</span><span class="st">"2005 Q1"</span> <span class="op">~</span> <span class="st">"2009 Q4"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_season.html">gg_season</a></span><span class="op">(</span><span class="va">serie2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Plot variable not specified, automatically selected `y = value`</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="Aula03_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_subseries</span>(serie2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_subseries.html">gg_subseries</a></span><span class="op">(</span><span class="va">serie2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Plot variable not specified, automatically selected `y = value`</code></pre>
 </div>
@@ -336,12 +309,222 @@ Attaching package: 'fabletools'</code></pre>
 <p><img src="Aula03_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
+</section><section id="decomposição-aditiva" class="level2"><h2 class="anchored" data-anchor-id="decomposição-aditiva">Decomposição Aditiva</h2>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/foreign/">foreign</a></span><span class="op">)</span></span>
+<span><span class="va">prodcerv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scan.html">scan</a></span><span class="op">(</span><span class="st">"beerprod.dat"</span><span class="op">)</span></span>
+<span><span class="va">prodcerv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">prodcerv</span>, start <span class="op">=</span> <span class="fl">1960</span>, freq <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">prodcerv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula03_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">decompos1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">prodcerv</span>, type <span class="op">=</span> <span class="st">"additive"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">decompos1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula03_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">decompos1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$x
+      Qtr1  Qtr2  Qtr3  Qtr4
+1960 284.4 212.8 226.9 308.4
+1961 262.0 227.9 236.1 320.4
+1962 271.9 232.8 237.0 313.4
+1963 261.4 226.8 249.9 314.3
+1964 286.1 226.5 260.4 311.4
+1965 294.7 232.6 257.2 339.2
+1966 279.1 249.8 269.8 345.7
+1967 293.8 254.7 277.5 363.4
+1968 313.4 272.8 300.1 369.5
+1969 330.8 287.8 305.9 386.1
+1970 335.2 288.0 308.3 402.3
+1971 352.8 316.1 324.9 404.8
+1972 393.0 318.9 327.0 442.3
+1973 383.1 331.6 361.4 445.9
+1974 386.6 357.2 373.6 466.2
+1975 409.6 369.8 378.6 487.0
+1976 419.2 376.7 392.8 506.1
+1977 458.4 387.4 426.9 525.0
+
+$seasonal
+           Qtr1       Qtr2       Qtr3       Qtr4
+1960   7.896324 -40.678676 -24.650735  57.433088
+1961   7.896324 -40.678676 -24.650735  57.433088
+1962   7.896324 -40.678676 -24.650735  57.433088
+1963   7.896324 -40.678676 -24.650735  57.433088
+1964   7.896324 -40.678676 -24.650735  57.433088
+1965   7.896324 -40.678676 -24.650735  57.433088
+1966   7.896324 -40.678676 -24.650735  57.433088
+1967   7.896324 -40.678676 -24.650735  57.433088
+1968   7.896324 -40.678676 -24.650735  57.433088
+1969   7.896324 -40.678676 -24.650735  57.433088
+1970   7.896324 -40.678676 -24.650735  57.433088
+1971   7.896324 -40.678676 -24.650735  57.433088
+1972   7.896324 -40.678676 -24.650735  57.433088
+1973   7.896324 -40.678676 -24.650735  57.433088
+1974   7.896324 -40.678676 -24.650735  57.433088
+1975   7.896324 -40.678676 -24.650735  57.433088
+1976   7.896324 -40.678676 -24.650735  57.433088
+1977   7.896324 -40.678676 -24.650735  57.433088
+
+$trend
+         Qtr1     Qtr2     Qtr3     Qtr4
+1960       NA       NA 255.3250 254.4125
+1961 257.4500 260.1000 262.8375 264.6875
+1962 265.4125 264.6500 262.4625 260.4000
+1963 261.2625 262.9875 266.1875 269.2375
+1964 270.5125 271.4625 272.1750 274.0125
+1965 274.3750 277.4500 278.9750 279.1750
+1966 282.9000 285.2875 287.9375 290.3875
+1967 291.9625 295.1375 299.8000 304.5125
+1968 309.6000 313.1875 316.1250 320.1750
+1969 322.7750 325.5750 328.2000 328.7750
+1970 329.1000 331.4250 335.6500 341.3625
+1971 346.9500 349.3375 354.6750 360.0500
+1972 360.6625 365.6125 369.0625 369.4125
+1973 375.3000 380.0500 380.9375 384.5750
+1974 389.3000 393.3625 398.7750 403.2250
+1975 405.4250 408.6500 412.4500 414.5125
+1976 417.1500 421.3125 428.6000 434.8375
+1977 440.4375 447.0625       NA       NA
+
+$random
+             Qtr1         Qtr2         Qtr3         Qtr4
+1960           NA           NA  -3.77426471  -3.44558824
+1961  -3.34632353   8.47867647  -2.08676471  -1.72058824
+1962  -1.40882353   8.82867647  -0.81176471  -4.43308824
+1963  -7.75882353   4.49117647   8.36323529 -12.37058824
+1964   7.69117647  -4.28382353  12.87573529 -20.04558824
+1965  12.42867647  -4.17132353   2.87573529   2.59191176
+1966 -11.69632353   5.19117647   6.51323529  -2.12058824
+1967  -6.05882353   0.24117647   2.35073529   1.45441176
+1968  -4.09632353   0.29117647   8.62573529  -8.10808824
+1969   0.12867647   2.90367647   2.35073529  -0.10808824
+1970  -1.79632353  -2.74632353  -2.69926471   3.50441176
+1971  -2.04632353   7.44117647  -5.12426471 -12.68308824
+1972  24.44117647  -6.03382353 -17.41176471  15.45441176
+1973  -0.09632353  -7.77132353   5.11323529   3.89191176
+1974 -10.59632353   4.51617647  -0.52426471   5.54191176
+1975  -3.72132353   1.82867647  -9.19926471  15.05441176
+1976  -5.84632353  -3.93382353 -11.14926471  13.82941176
+1977  10.06617647 -18.98382353           NA           NA
+
+$figure
+[1]   7.896324 -40.678676 -24.650735  57.433088
+
+$type
+[1] "additive"
+
+attr(,"class")
+[1] "decomposed.ts"</code></pre>
+</div>
+</div>
+</section><section id="decomposição-multiplicativa" class="level2"><h2 class="anchored" data-anchor-id="decomposição-multiplicativa">Decomposição Multiplicativa</h2>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">decompos2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/decompose.html">decompose</a></span><span class="op">(</span><span class="va">prodcerv</span>, type <span class="op">=</span> <span class="st">"multiplicative"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">decompos2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Aula03_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">decompos2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$x
+      Qtr1  Qtr2  Qtr3  Qtr4
+1960 284.4 212.8 226.9 308.4
+1961 262.0 227.9 236.1 320.4
+1962 271.9 232.8 237.0 313.4
+1963 261.4 226.8 249.9 314.3
+1964 286.1 226.5 260.4 311.4
+1965 294.7 232.6 257.2 339.2
+1966 279.1 249.8 269.8 345.7
+1967 293.8 254.7 277.5 363.4
+1968 313.4 272.8 300.1 369.5
+1969 330.8 287.8 305.9 386.1
+1970 335.2 288.0 308.3 402.3
+1971 352.8 316.1 324.9 404.8
+1972 393.0 318.9 327.0 442.3
+1973 383.1 331.6 361.4 445.9
+1974 386.6 357.2 373.6 466.2
+1975 409.6 369.8 378.6 487.0
+1976 419.2 376.7 392.8 506.1
+1977 458.4 387.4 426.9 525.0
+
+$seasonal
+          Qtr1      Qtr2      Qtr3      Qtr4
+1960 1.0237877 0.8753662 0.9233315 1.1775147
+1961 1.0237877 0.8753662 0.9233315 1.1775147
+1962 1.0237877 0.8753662 0.9233315 1.1775147
+1963 1.0237877 0.8753662 0.9233315 1.1775147
+1964 1.0237877 0.8753662 0.9233315 1.1775147
+1965 1.0237877 0.8753662 0.9233315 1.1775147
+1966 1.0237877 0.8753662 0.9233315 1.1775147
+1967 1.0237877 0.8753662 0.9233315 1.1775147
+1968 1.0237877 0.8753662 0.9233315 1.1775147
+1969 1.0237877 0.8753662 0.9233315 1.1775147
+1970 1.0237877 0.8753662 0.9233315 1.1775147
+1971 1.0237877 0.8753662 0.9233315 1.1775147
+1972 1.0237877 0.8753662 0.9233315 1.1775147
+1973 1.0237877 0.8753662 0.9233315 1.1775147
+1974 1.0237877 0.8753662 0.9233315 1.1775147
+1975 1.0237877 0.8753662 0.9233315 1.1775147
+1976 1.0237877 0.8753662 0.9233315 1.1775147
+1977 1.0237877 0.8753662 0.9233315 1.1775147
+
+$trend
+         Qtr1     Qtr2     Qtr3     Qtr4
+1960       NA       NA 255.3250 254.4125
+1961 257.4500 260.1000 262.8375 264.6875
+1962 265.4125 264.6500 262.4625 260.4000
+1963 261.2625 262.9875 266.1875 269.2375
+1964 270.5125 271.4625 272.1750 274.0125
+1965 274.3750 277.4500 278.9750 279.1750
+1966 282.9000 285.2875 287.9375 290.3875
+1967 291.9625 295.1375 299.8000 304.5125
+1968 309.6000 313.1875 316.1250 320.1750
+1969 322.7750 325.5750 328.2000 328.7750
+1970 329.1000 331.4250 335.6500 341.3625
+1971 346.9500 349.3375 354.6750 360.0500
+1972 360.6625 365.6125 369.0625 369.4125
+1973 375.3000 380.0500 380.9375 384.5750
+1974 389.3000 393.3625 398.7750 403.2250
+1975 405.4250 408.6500 412.4500 414.5125
+1976 417.1500 421.3125 428.6000 434.8375
+1977 440.4375 447.0625       NA       NA
+
+$random
+          Qtr1      Qtr2      Qtr3      Qtr4
+1960        NA        NA 0.9624618 1.0294603
+1961 0.9940277 1.0009542 0.9728614 1.0279992
+1962 1.0006402 1.0048965 0.9779652 1.0220960
+1963 0.9772791 0.9851859 1.0167658 0.9913854
+1964 1.0330483 0.9531662 1.0361797 0.9651213
+1965 1.0491213 0.9577127 0.9984999 1.0318415
+1966 0.9636448 1.0002762 1.0148131 1.0110093
+1967 0.9829124 0.9858590 1.0024753 1.0134760
+1968 0.9887538 0.9950621 1.0281334 0.9800781
+1969 1.0010499 1.0098340 1.0094463 0.9973204
+1970 0.9948698 0.9926987 0.9947849 1.0008475
+1971 0.9932345 1.0336881 0.9921137 0.9547977
+1972 1.0643432 0.9964230 0.9595998 1.0168082
+1973 0.9970655 0.9967449 1.0274880 0.9846686
+1974 0.9699907 1.0373582 1.0146617 0.9818802
+1975 0.9868236 1.0337741 0.9941494 0.9977575
+1976 0.9815652 1.0214133 0.9925711 0.9884234
+1977 1.0166008 0.9899235        NA        NA
+
+$figure
+[1] 1.0237877 0.8753662 0.9233315 1.1775147
+
+$type
+[1] "multiplicative"
+
+attr(,"class")
+[1] "decomposed.ts"</code></pre>
+</div>
+</div>
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -688,19 +871,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../semanas/Aula02.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Aula 02</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../semanas/Aula04.html" class="pagination-link">
+        <span class="nav-page-text">Aula 04</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">Baseado em https://sta210-s22.github.io/website/</div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -710,7 +893,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
 
 
 </body></html>

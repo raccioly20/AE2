@@ -2,13 +2,12 @@
 title: "Explorando Series Temporais"
 author: "Ricardo Accioly"
 date: "`r Sys.Date()`"
-output:
- html_document:
-    toc: yes
-    code_download: yes
+format:
+ html:
+    code-link: true
 ---
 
-```{r}
+```{r, include=FALSE}
 # parametros para imagens
 knitr::opts_chunk$set(
   fig.width = 8,
@@ -40,4 +39,25 @@ gg_subseries(serie1)
 serie2 <- ausbeer2 %>% filter_index("2005 Q1" ~ "2009 Q4")
 gg_season(serie2)
 gg_subseries(serie2)
+```
+
+## Decomposição Aditiva
+
+```{r}
+library(foreign)
+prodcerv <- scan("beerprod.dat")
+prodcerv <- ts(prodcerv, start = 1960, freq = 4)
+autoplot(prodcerv)
+decompos1 <- decompose(prodcerv, type = "additive")
+plot(decompos1)
+decompos1
+
+```
+
+## Decomposição Multiplicativa
+
+```{r}
+decompos2 <- decompose(prodcerv, type = "multiplicative")
+plot(decompos2)
+decompos2
 ```

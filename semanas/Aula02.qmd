@@ -2,13 +2,12 @@
 title: "Análise Exploratória de Series Temporais"
 author: "Ricardo Accioly"
 date: "`r Sys.Date()`"
-output:
- html_document:
-    toc: yes
-    code_download: yes
+format:
+ html:
+    code-link: true
 ---
 
-```{r}
+```{r, include=FALSE}
 # parametros para imagens
 knitr::opts_chunk$set(
   fig.width = 8,
@@ -60,4 +59,3 @@ c_energ_resid_04_07 <- c_energ_resid %>% filter_index( ~ "2007-12")
 c_energ_resid_04_07 %>% ACF(log(mwh_residencial)) %>% autoplot()
 
 ```
-

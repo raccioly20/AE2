@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
-
+<meta name="generator" content="quarto-1.3.340">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Ricardo Accioly">
-<meta name="dcterms.date" content="2023-04-08">
-
+<meta name="dcterms.date" content="2023-06-07">
 <title>Análise Estatística II - Análise Exploratória de Series Temporais</title>
 <style>
 code{white-space: pre-wrap;}
@@ -58,7 +55,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -77,8 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -97,21 +92,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit"
   }
 }</script>
-
-
 <meta name="twitter:title" content="Análise Estatística II - Análise Exploratória de Series Temporais">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="images/AE2.png">
 <meta name="twitter:creator" content="@r_accioly">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -122,16 +112,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
-      <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../images/AE2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/raccioly20" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
     <a href="https://twitter.com/r_accioly" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
@@ -145,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
  <span class="menu-text">Informação da disciplina</span></a>
@@ -153,8 +138,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../visao-do-curso.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Visão Geral</span></a>
@@ -167,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
@@ -176,8 +161,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../semanas/Aula01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Aula 01</span></a>
@@ -195,33 +180,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Aula 03</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../semanas/Aula04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aula 04</span></a>
+  </div>
+</li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#séries-temporais" id="toc-séries-temporais" class="nav-link active" data-scroll-target="#séries-temporais">Séries Temporais</a></li>
-  <li><a href="#carregando-uma-série-de-um-arquivo-excel" id="toc-carregando-uma-série-de-um-arquivo-excel" class="nav-link" data-scroll-target="#carregando-uma-série-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</a></li>
+<li><a href="#s%C3%A9ries-temporais" id="toc-séries-temporais" class="nav-link active" data-scroll-target="#s%C3%A9ries-temporais">Séries Temporais</a></li>
+  <li><a href="#carregando-uma-s%C3%A9rie-de-um-arquivo-excel" id="toc-carregando-uma-série-de-um-arquivo-excel" class="nav-link" data-scroll-target="#carregando-uma-s%C3%A9rie-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</a></li>
   <li><a href="#transformando-os-dados-para-o-formato-tsibble" id="toc-transformando-os-dados-para-o-formato-tsibble" class="nav-link" data-scroll-target="#transformando-os-dados-para-o-formato-tsibble">Transformando os dados para o formato tsibble</a></li>
-  <li><a href="#visualizando-uma-série" id="toc-visualizando-uma-série" class="nav-link" data-scroll-target="#visualizando-uma-série">Visualizando uma série</a></li>
+  <li><a href="#visualizando-uma-s%C3%A9rie" id="toc-visualizando-uma-série" class="nav-link" data-scroll-target="#visualizando-uma-s%C3%A9rie">Visualizando uma série</a></li>
   <li><a href="#transformando-e-visualizando-uma-serie" id="toc-transformando-e-visualizando-uma-serie" class="nav-link" data-scroll-target="#transformando-e-visualizando-uma-serie">Transformando e Visualizando uma Serie</a></li>
-  <li><a href="#obtendo-e-visualizando-uma-st-econômica" id="toc-obtendo-e-visualizando-uma-st-econômica" class="nav-link" data-scroll-target="#obtendo-e-visualizando-uma-st-econômica">Obtendo e Visualizando uma ST econômica</a></li>
+  <li><a href="#obtendo-e-visualizando-uma-st-econ%C3%B4mica" id="toc-obtendo-e-visualizando-uma-st-econômica" class="nav-link" data-scroll-target="#obtendo-e-visualizando-uma-st-econ%C3%B4mica">Obtendo e Visualizando uma ST econômica</a></li>
   <li><a href="#vamos-selecionar-somente-o-fechamento-close" id="toc-vamos-selecionar-somente-o-fechamento-close" class="nav-link" data-scroll-target="#vamos-selecionar-somente-o-fechamento-close">Vamos selecionar somente o fechamento (close)</a></li>
-  </ul>
-</nav>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Análise Exploratória de Series Temporais</h1>
 </div>
 
@@ -239,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 8, 2023</p>
+      <p class="date">June 7, 2023</p>
     </div>
   </div>
   
@@ -247,28 +232,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header>
-
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parametros para imagens</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.width =</span> <span class="dv">8</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.asp =</span> <span class="fl">0.618</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.retina =</span> <span class="dv">3</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">300</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">out.width =</span> <span class="st">"80%"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="séries-temporais" class="level2">
-<h2 class="anchored" data-anchor-id="séries-temporais">Séries Temporais</h2>
+</header><section id="séries-temporais" class="level2"><h2 class="anchored" data-anchor-id="séries-temporais">Séries Temporais</h2>
 <p>Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais.</p>
-</section>
-<section id="carregando-uma-série-de-um-arquivo-excel" class="level2">
-<h2 class="anchored" data-anchor-id="carregando-uma-série-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</h2>
+</section><section id="carregando-uma-série-de-um-arquivo-excel" class="level2"><h2 class="anchored" data-anchor-id="carregando-uma-série-de-um-arquivo-excel">Carregando uma série de um arquivo Excel</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>consumo_resid <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"e:/Onedrive/github/ae2/semanas/consumo_residencial.xlsx"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(consumo_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="va">consumo_resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"e:/Onedrive/github/ae2/semanas/consumo_residencial.xlsx"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">consumo_resid</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      data                        mwh_residencial   
  Min.   :2004-01-01 00:00:00.00   Min.   : 6291091  
@@ -279,11 +249,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  Max.   :2022-12-01 00:00:00.00   Max.   :13924000  </code></pre>
 </div>
 </div>
-</section>
-<section id="transformando-os-dados-para-o-formato-tsibble" class="level2">
-<h2 class="anchored" data-anchor-id="transformando-os-dados-para-o-formato-tsibble">Transformando os dados para o formato tsibble</h2>
+</section><section id="transformando-os-dados-para-o-formato-tsibble" class="level2"><h2 class="anchored" data-anchor-id="transformando-os-dados-para-o-formato-tsibble">Transformando os dados para o formato tsibble</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'tsibble'</code></pre>
@@ -293,12 +261,12 @@ Attaching package: 'tsibble'</code></pre>
 
     intersect, setdiff, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>consumo_resid<span class="sc">$</span>data <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2004-01-01"</span>), <span class="fu">as.Date</span>(<span class="st">"2022-12-01"</span>), <span class="at">by =</span> <span class="st">"1 month"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> <span class="fu">tsibble</span>(<span class="fu">yearmonth</span>(consumo_resid<span class="sc">$</span>data), <span class="at">value=</span>consumo_resid<span class="sc">$</span>mwh_residencial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">consumo_resid</span><span class="op">$</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2004-01-01"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2022-12-01"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"1 month"</span><span class="op">)</span></span>
+<span><span class="va">cons_resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span><span class="fu"><a href="https://tsibble.tidyverts.org/reference/year-month.html">yearmonth</a></span><span class="op">(</span><span class="va">consumo_resid</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, value<span class="op">=</span><span class="va">consumo_resid</span><span class="op">$</span><span class="va">mwh_residencial</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Using `&lt;mth&gt;` as index variable.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -313,56 +281,50 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> cons_resid <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">ano_mes =</span> <span class="st">`</span><span class="at">&lt;mth&gt;</span><span class="st">`</span>, <span class="at">mwh =</span> value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cons_resid</span> <span class="op">&lt;-</span> <span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>ano_mes <span class="op">=</span> <span class="va">`&lt;mth&gt;`</span>, mwh <span class="op">=</span> <span class="va">value</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="visualizando-uma-série" class="level2">
-<h2 class="anchored" data-anchor-id="visualizando-uma-série">Visualizando uma série</h2>
+</section><section id="visualizando-uma-série" class="level2"><h2 class="anchored" data-anchor-id="visualizando-uma-série">Visualizando uma série</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Carregando pacotes exigidos: fabletools</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">mwh</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Ano"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Aula01_files/figure-html/unnamed-chunk-4-1.png" class="quarto-discovered-preview-image img-fluid" style="width:80.0%"></p>
+<p><img src="Aula01_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
-</section>
-<section id="transformando-e-visualizando-uma-serie" class="level2">
-<h2 class="anchored" data-anchor-id="transformando-e-visualizando-uma-serie">Transformando e Visualizando uma Serie</h2>
+</section><section id="transformando-e-visualizando-uma-serie" class="level2"><h2 class="anchored" data-anchor-id="transformando-e-visualizando-uma-serie">Transformando e Visualizando uma Serie</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="ot">&lt;-</span> cons_resid <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">mwh_raiz =</span> <span class="fu">sqrt</span>(mwh),</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_rcub =</span> (mwh)<span class="sc">^</span><span class="fl">0.33333</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_log =</span> <span class="fu">log</span>(mwh),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mwh_inv =</span> (mwh)<span class="sc">^-</span><span class="dv">1</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_raiz)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Raiz do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cons_resid</span> <span class="op">&lt;-</span> <span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>mwh_raiz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">mwh</span><span class="op">)</span>,</span>
+<span>                              mwh_rcub <span class="op">=</span> <span class="op">(</span><span class="va">mwh</span><span class="op">)</span><span class="op">^</span><span class="fl">0.33333</span>,</span>
+<span>                              mwh_log <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">mwh</span><span class="op">)</span>,</span>
+<span>                              mwh_inv <span class="op">=</span> <span class="op">(</span><span class="va">mwh</span><span class="op">)</span><span class="op">^</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">mwh_raiz</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Ano"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Raiz do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_rcub)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Raiz Cúbica do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">mwh_rcub</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Ano"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Raiz Cúbica do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_log)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Log do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">mwh_log</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Ano"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Log do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cons_resid <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">vars</span>(mwh_inv)) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Ano"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>) <span class="sc">+</span>   <span class="fu">ggtitle</span>(<span class="st">"Inversa do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cons_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">mwh_inv</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Ano"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">""</span><span class="op">)</span> <span class="op">+</span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Inversa do Consumo Residencial Total no Brasil (MWh) - Fonte EPE"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
-</section>
-<section id="obtendo-e-visualizando-uma-st-econômica" class="level2">
-<h2 class="anchored" data-anchor-id="obtendo-e-visualizando-uma-st-econômica">Obtendo e Visualizando uma ST econômica</h2>
+</section><section id="obtendo-e-visualizando-uma-st-econômica" class="level2"><h2 class="anchored" data-anchor-id="obtendo-e-visualizando-uma-st-econômica">Obtendo e Visualizando uma ST econômica</h2>
 <p>Vamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços das ações da Apple (AAPL) entre 2000 e 2022.</p>
 <p>A biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.quantmod.com">quantmod</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Carregando pacotes exigidos: xts</code></pre>
 </div>
@@ -385,22 +347,20 @@ Attaching package: 'zoo'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-################################### WARNING ###################################
-# We noticed you have dplyr installed. The dplyr lag() function breaks how    #
-# base R's lag() function is supposed to work, which breaks lag(my_xts).      #
+######################### Warning from 'xts' package ##########################
 #                                                                             #
-# Calls to lag(my_xts) that you enter or source() into this session won't     #
-# work correctly.                                                             #
+# The dplyr lag() function breaks how base R's lag() function is supposed to  #
+# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #
+# source() into this session won't work correctly.                            #
 #                                                                             #
-# All package code is unaffected because it is protected by the R namespace   #
-# mechanism.                                                                  #
+# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #
+# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #
+# dplyr from breaking base R's lag() function.                                #
 #                                                                             #
+# Code in packages is not affected. It's protected by R's namespace mechanism #
 # Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
 #                                                                             #
-# You can use stats::lag() to make sure you're not using dplyr::lag(), or you #
-# can add conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop   #
-# dplyr from breaking base R's lag() function.                                #
-################################### WARNING ###################################</code></pre>
+###############################################################################</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -419,40 +379,40 @@ Attaching package: 'xts'</code></pre>
   method            from
   as.zoo.data.frame zoo </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getSymbols</span>(<span class="st">"AAPL"</span>,<span class="at">from=</span><span class="st">"2020-01-02"</span>, <span class="at">to=</span><span class="st">"2022-12-31"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/quantmod/man/getSymbols.html">getSymbols</a></span><span class="op">(</span><span class="st">"AAPL"</span>,from<span class="op">=</span><span class="st">"2020-01-02"</span>, to<span class="op">=</span><span class="st">"2022-12-31"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "AAPL"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(AAPL) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">AAPL</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 756   6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">AAPL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted
-2020-01-02   74.0600   75.1500  73.7975    75.0875   135480400      73.44939
-2020-01-03   74.2875   75.1450  74.1250    74.3575   146322800      72.73532
-2020-01-06   73.4475   74.9900  73.1875    74.9500   118387200      73.31487
-2020-01-07   74.9600   75.2250  74.3700    74.5975   108872000      72.97008
-2020-01-08   74.2900   76.1100  74.2900    75.7975   132079200      74.14388
-2020-01-09   76.8100   77.6075  76.5500    77.4075   170108400      75.71877</code></pre>
+2020-01-02   74.0600   75.1500  73.7975    75.0875   135480400      73.34794
+2020-01-03   74.2875   75.1450  74.1250    74.3575   146322800      72.63486
+2020-01-06   73.4475   74.9900  73.1875    74.9500   118387200      73.21360
+2020-01-07   74.9600   75.2250  74.3700    74.5975   108872000      72.86929
+2020-01-08   74.2900   76.1100  74.2900    75.7975   132079200      74.04148
+2020-01-09   76.8100   77.6075  76.5500    77.4075   170108400      75.61419</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">AAPL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted
-2022-12-22    134.35    134.56   130.30     132.23    77852100      132.0284
-2022-12-23    130.92    132.42   129.64     131.86    63814900      131.6590
-2022-12-27    131.38    131.41   128.72     130.03    69007800      129.8318
-2022-12-28    129.67    131.03   125.87     126.04    85438400      125.8479
-2022-12-29    127.99    130.48   127.73     129.61    75703700      129.4124
-2022-12-30    128.41    129.95   127.43     129.93    77034200      129.7319</code></pre>
+2022-12-22    134.35    134.56   130.30     132.23    77852100      131.8460
+2022-12-23    130.92    132.42   129.64     131.86    63814900      131.4771
+2022-12-27    131.38    131.41   128.72     130.03    69007800      129.6524
+2022-12-28    129.67    131.03   125.87     126.04    85438400      125.6740
+2022-12-29    127.99    130.48   127.73     129.61    75703700      129.2337
+2022-12-30    128.41    129.95   127.43     129.93    77034200      129.5527</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A biblioteca tem uma forma diferenciada de apresentação das series financeiras</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chartSeries</span>(AAPL,<span class="at">theme=</span><span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># A biblioteca tem uma forma diferenciada de apresentação das series financeiras</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/quantmod/man/chartSeries.html">chartSeries</a></span><span class="op">(</span><span class="va">AAPL</span>,theme<span class="op">=</span><span class="st">"white"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">AAPL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>An xts object on 2020-01-02 / 2022-12-30 containing: 
   Data:    double [756, 6]
@@ -460,12 +420,12 @@ Attaching package: 'xts'</code></pre>
   Index:   Date [756] (TZ: "UTC")
   xts Attributes:
     $ src    : chr "yahoo"
-    $ updated: POSIXct[1:1], format: "2023-04-08 15:56:54"</code></pre>
+    $ updated: POSIXct[1:1], format: "2023-06-07 15:24:42"</code></pre>
 </div>
 </div>
 <p>Veja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AAPL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">AAPL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Index              AAPL.Open        AAPL.High         AAPL.Low     
  Min.   :2020-01-02   Min.   : 57.02   Min.   : 57.12   Min.   : 53.15  
@@ -474,32 +434,27 @@ Attaching package: 'xts'</code></pre>
  Mean   :2021-07-01   Mean   :130.23   Mean   :131.89   Mean   :128.61  
  3rd Qu.:2022-03-31   3rd Qu.:150.26   3rd Qu.:151.90   3rd Qu.:149.03  
  Max.   :2022-12-30   Max.   :182.63   Max.   :182.94   Max.   :179.12  
-   AAPL.Close      AAPL.Volume        AAPL.Adjusted  
- Min.   : 56.09   Min.   : 35195900   Min.   : 55.0  
- 1st Qu.:115.74   1st Qu.: 76364700   1st Qu.:114.0  
- Median :135.38   Median : 94935800   Median :134.5  
- Mean   :130.31   Mean   :112092019   Mean   :129.1  
- 3rd Qu.:150.71   3rd Qu.:129632700   3rd Qu.:149.9  
- Max.   :182.01   Max.   :426510000   Max.   :180.7  </code></pre>
+   AAPL.Close      AAPL.Volume        AAPL.Adjusted   
+ Min.   : 56.09   Min.   : 35195900   Min.   : 54.92  
+ 1st Qu.:115.74   1st Qu.: 76364700   1st Qu.:113.84  
+ Median :135.38   Median : 94935800   Median :134.34  
+ Mean   :130.31   Mean   :112092019   Mean   :128.91  
+ 3rd Qu.:150.71   3rd Qu.:129632700   3rd Qu.:149.71  
+ Max.   :182.01   Max.   :426510000   Max.   :180.43  </code></pre>
 </div>
 </div>
-</section>
-<section id="vamos-selecionar-somente-o-fechamento-close" class="level2">
-<h2 class="anchored" data-anchor-id="vamos-selecionar-somente-o-fechamento-close">Vamos selecionar somente o fechamento (close)</h2>
+</section><section id="vamos-selecionar-somente-o-fechamento-close" class="level2"><h2 class="anchored" data-anchor-id="vamos-selecionar-somente-o-fechamento-close">Vamos selecionar somente o fechamento (close)</h2>
 <p>Para trabalhar com somente uma das series vamos selecionar sua coluna de dados</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>AAPL_C <span class="ot">&lt;-</span> AAPL[,<span class="st">"AAPL.Close"</span>]</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chartSeries</span>(AAPL_C,<span class="at">theme=</span><span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AAPL_C</span> <span class="op">&lt;-</span> <span class="va">AAPL</span><span class="op">[</span>,<span class="st">"AAPL.Close"</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/quantmod/man/chartSeries.html">chartSeries</a></span><span class="op">(</span><span class="va">AAPL_C</span>,theme<span class="op">=</span><span class="st">"white"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Aula01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
 </div>
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -846,9 +801,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../index.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Cronograma</span>
       </a>          
@@ -860,8 +813,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">Baseado em https://sta210-s22.github.io/website/</div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -871,7 +823,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
 
 
 </body></html>

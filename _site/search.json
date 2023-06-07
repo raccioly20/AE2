@@ -18,21 +18,21 @@
     "href": "index.html",
     "title": "Análise Estatística II",
     "section": "",
-    "text": "Esta página você vai encontrar o material didático que servirá de complemento para as aulas da disciplina de Análise Estatística II.\nAs mudanças serão constantes ao longo do semestre.\nAula 01\nAula 02\nAula 03"
+    "text": "Esta página você vai encontrar o material didático que servirá de complemento para as aulas da disciplina de Análise Estatística II.\nAs mudanças serão constantes ao longo do semestre.\nAula 01\nAula 02\nAula 03\nAula 04"
   },
   {
     "objectID": "semanas/Aula01.html",
     "href": "semanas/Aula01.html",
     "title": "Análise Exploratória de Series Temporais",
     "section": "",
-    "text": "# parametros para imagens\nknitr::opts_chunk$set(\n  fig.width = 8,\n  fig.asp = 0.618,\n  fig.retina = 3,\n  dpi = 300,\n  out.width = \"80%\"\n)"
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
   },
   {
     "objectID": "semanas/Aula01.html#séries-temporais",
     "href": "semanas/Aula01.html#séries-temporais",
     "title": "Análise Exploratória de Series Temporais",
-    "section": "Séries Temporais",
-    "text": "Séries Temporais\nNestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
+    "section": "",
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
   },
   {
     "objectID": "semanas/Aula01.html#carregando-uma-série-de-um-arquivo-excel",
@@ -67,7 +67,7 @@
     "href": "semanas/Aula01.html#obtendo-e-visualizando-uma-st-econômica",
     "title": "Análise Exploratória de Series Temporais",
     "section": "Obtendo e Visualizando uma ST econômica",
-    "text": "Obtendo e Visualizando uma ST econômica\nVamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços das ações da Apple (AAPL) entre 2000 e 2022.\nA biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.\n\nlibrary(quantmod)\n\nCarregando pacotes exigidos: xts\n\n\nCarregando pacotes exigidos: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following object is masked from 'package:tsibble':\n\n    index\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\n\n################################### WARNING ###################################\n# We noticed you have dplyr installed. The dplyr lag() function breaks how    #\n# base R's lag() function is supposed to work, which breaks lag(my_xts).      #\n#                                                                             #\n# Calls to lag(my_xts) that you enter or source() into this session won't     #\n# work correctly.                                                             #\n#                                                                             #\n# All package code is unaffected because it is protected by the R namespace   #\n# mechanism.                                                                  #\n#                                                                             #\n# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #\n#                                                                             #\n# You can use stats::lag() to make sure you're not using dplyr::lag(), or you #\n# can add conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop   #\n# dplyr from breaking base R's lag() function.                                #\n################################### WARNING ###################################\n\n\n\nAttaching package: 'xts'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    first, last\n\n\nCarregando pacotes exigidos: TTR\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\ngetSymbols(\"AAPL\",from=\"2020-01-02\", to=\"2022-12-31\")\n\n[1] \"AAPL\"\n\ndim(AAPL) \n\n[1] 756   6\n\nhead(AAPL)\n\n           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted\n2020-01-02   74.0600   75.1500  73.7975    75.0875   135480400      73.44939\n2020-01-03   74.2875   75.1450  74.1250    74.3575   146322800      72.73532\n2020-01-06   73.4475   74.9900  73.1875    74.9500   118387200      73.31487\n2020-01-07   74.9600   75.2250  74.3700    74.5975   108872000      72.97008\n2020-01-08   74.2900   76.1100  74.2900    75.7975   132079200      74.14388\n2020-01-09   76.8100   77.6075  76.5500    77.4075   170108400      75.71877\n\ntail(AAPL)\n\n           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted\n2022-12-22    134.35    134.56   130.30     132.23    77852100      132.0284\n2022-12-23    130.92    132.42   129.64     131.86    63814900      131.6590\n2022-12-27    131.38    131.41   128.72     130.03    69007800      129.8318\n2022-12-28    129.67    131.03   125.87     126.04    85438400      125.8479\n2022-12-29    127.99    130.48   127.73     129.61    75703700      129.4124\n2022-12-30    128.41    129.95   127.43     129.93    77034200      129.7319\n\n# A biblioteca tem uma forma diferenciada de apresentação das series financeiras\nchartSeries(AAPL,theme=\"white\")\n\n\n\nstr(AAPL)\n\nAn xts object on 2020-01-02 / 2022-12-30 containing: \n  Data:    double [756, 6]\n  Columns: AAPL.Open, AAPL.High, AAPL.Low, AAPL.Close, AAPL.Volume ... with 1 more column\n  Index:   Date [756] (TZ: \"UTC\")\n  xts Attributes:\n    $ src    : chr \"yahoo\"\n    $ updated: POSIXct[1:1], format: \"2023-04-08 15:56:54\"\n\n\nVeja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)\n\nsummary(AAPL)\n\n     Index              AAPL.Open        AAPL.High         AAPL.Low     \n Min.   :2020-01-02   Min.   : 57.02   Min.   : 57.12   Min.   : 53.15  \n 1st Qu.:2020-09-30   1st Qu.:115.92   1st Qu.:117.28   1st Qu.:114.13  \n Median :2021-07-01   Median :135.79   Median :137.20   Median :133.75  \n Mean   :2021-07-01   Mean   :130.23   Mean   :131.89   Mean   :128.61  \n 3rd Qu.:2022-03-31   3rd Qu.:150.26   3rd Qu.:151.90   3rd Qu.:149.03  \n Max.   :2022-12-30   Max.   :182.63   Max.   :182.94   Max.   :179.12  \n   AAPL.Close      AAPL.Volume        AAPL.Adjusted  \n Min.   : 56.09   Min.   : 35195900   Min.   : 55.0  \n 1st Qu.:115.74   1st Qu.: 76364700   1st Qu.:114.0  \n Median :135.38   Median : 94935800   Median :134.5  \n Mean   :130.31   Mean   :112092019   Mean   :129.1  \n 3rd Qu.:150.71   3rd Qu.:129632700   3rd Qu.:149.9  \n Max.   :182.01   Max.   :426510000   Max.   :180.7"
+    "text": "Obtendo e Visualizando uma ST econômica\nVamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços das ações da Apple (AAPL) entre 2000 e 2022.\nA biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.\n\nlibrary(quantmod)\n\nCarregando pacotes exigidos: xts\n\n\nCarregando pacotes exigidos: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following object is masked from 'package:tsibble':\n\n    index\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\n\n######################### Warning from 'xts' package ##########################\n#                                                                             #\n# The dplyr lag() function breaks how base R's lag() function is supposed to  #\n# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #\n# source() into this session won't work correctly.                            #\n#                                                                             #\n# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #\n# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #\n# dplyr from breaking base R's lag() function.                                #\n#                                                                             #\n# Code in packages is not affected. It's protected by R's namespace mechanism #\n# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #\n#                                                                             #\n###############################################################################\n\n\n\nAttaching package: 'xts'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    first, last\n\n\nCarregando pacotes exigidos: TTR\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\ngetSymbols(\"AAPL\",from=\"2020-01-02\", to=\"2022-12-31\")\n\n[1] \"AAPL\"\n\ndim(AAPL) \n\n[1] 756   6\n\nhead(AAPL)\n\n           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted\n2020-01-02   74.0600   75.1500  73.7975    75.0875   135480400      73.34794\n2020-01-03   74.2875   75.1450  74.1250    74.3575   146322800      72.63486\n2020-01-06   73.4475   74.9900  73.1875    74.9500   118387200      73.21360\n2020-01-07   74.9600   75.2250  74.3700    74.5975   108872000      72.86929\n2020-01-08   74.2900   76.1100  74.2900    75.7975   132079200      74.04148\n2020-01-09   76.8100   77.6075  76.5500    77.4075   170108400      75.61419\n\ntail(AAPL)\n\n           AAPL.Open AAPL.High AAPL.Low AAPL.Close AAPL.Volume AAPL.Adjusted\n2022-12-22    134.35    134.56   130.30     132.23    77852100      131.8460\n2022-12-23    130.92    132.42   129.64     131.86    63814900      131.4771\n2022-12-27    131.38    131.41   128.72     130.03    69007800      129.6524\n2022-12-28    129.67    131.03   125.87     126.04    85438400      125.6740\n2022-12-29    127.99    130.48   127.73     129.61    75703700      129.2337\n2022-12-30    128.41    129.95   127.43     129.93    77034200      129.5527\n\n# A biblioteca tem uma forma diferenciada de apresentação das series financeiras\nchartSeries(AAPL,theme=\"white\")\n\n\n\nstr(AAPL)\n\nAn xts object on 2020-01-02 / 2022-12-30 containing: \n  Data:    double [756, 6]\n  Columns: AAPL.Open, AAPL.High, AAPL.Low, AAPL.Close, AAPL.Volume ... with 1 more column\n  Index:   Date [756] (TZ: \"UTC\")\n  xts Attributes:\n    $ src    : chr \"yahoo\"\n    $ updated: POSIXct[1:1], format: \"2023-06-07 15:24:42\"\n\n\nVeja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)\n\nsummary(AAPL)\n\n     Index              AAPL.Open        AAPL.High         AAPL.Low     \n Min.   :2020-01-02   Min.   : 57.02   Min.   : 57.12   Min.   : 53.15  \n 1st Qu.:2020-09-30   1st Qu.:115.92   1st Qu.:117.28   1st Qu.:114.13  \n Median :2021-07-01   Median :135.79   Median :137.20   Median :133.75  \n Mean   :2021-07-01   Mean   :130.23   Mean   :131.89   Mean   :128.61  \n 3rd Qu.:2022-03-31   3rd Qu.:150.26   3rd Qu.:151.90   3rd Qu.:149.03  \n Max.   :2022-12-30   Max.   :182.63   Max.   :182.94   Max.   :179.12  \n   AAPL.Close      AAPL.Volume        AAPL.Adjusted   \n Min.   : 56.09   Min.   : 35195900   Min.   : 54.92  \n 1st Qu.:115.74   1st Qu.: 76364700   1st Qu.:113.84  \n Median :135.38   Median : 94935800   Median :134.34  \n Mean   :130.31   Mean   :112092019   Mean   :128.91  \n 3rd Qu.:150.71   3rd Qu.:129632700   3rd Qu.:149.71  \n Max.   :182.01   Max.   :426510000   Max.   :180.43"
   },
   {
     "objectID": "semanas/Aula01.html#vamos-selecionar-somente-o-fechamento-close",
@@ -81,14 +81,14 @@
     "href": "semanas/Aula02.html",
     "title": "Análise Exploratória de Series Temporais",
     "section": "",
-    "text": "# parametros para imagens\nknitr::opts_chunk$set(\n  fig.width = 8,\n  fig.asp = 0.618,\n  fig.retina = 3,\n  dpi = 300,\n  out.width = \"80%\"\n)"
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
   },
   {
     "objectID": "semanas/Aula02.html#séries-temporais",
     "href": "semanas/Aula02.html#séries-temporais",
     "title": "Análise Exploratória de Series Temporais",
-    "section": "Séries Temporais",
-    "text": "Séries Temporais\nNestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
+    "section": "",
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais."
   },
   {
     "objectID": "semanas/Aula02.html#carregando-uma-série-de-um-arquivo-excel",
@@ -123,21 +123,133 @@
     "href": "semanas/Aula03.html",
     "title": "Explorando Series Temporais",
     "section": "",
-    "text": "# parametros para imagens\nknitr::opts_chunk$set(\n  fig.width = 8,\n  fig.asp = 0.618,\n  fig.retina = 3,\n  dpi = 300,\n  out.width = \"80%\"\n)"
+    "text": "library(fpp2)\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\n── Attaching packages ────────────────────────────────────────────── fpp2 2.5 ──\n\n\n✔ ggplot2   3.4.2     ✔ fma       2.5  \n✔ forecast  8.21      ✔ expsmooth 2.3  \n\n\n\n\ndata(ausbeer)\nautoplot(ausbeer)"
   },
   {
     "objectID": "semanas/Aula03.html#carregando-e-visualizando-dados-de-produção-de-cerveja",
     "href": "semanas/Aula03.html#carregando-e-visualizando-dados-de-produção-de-cerveja",
     "title": "Explorando Series Temporais",
-    "section": "Carregando e visualizando dados de Produção de Cerveja",
-    "text": "Carregando e visualizando dados de Produção de Cerveja\n\nlibrary(fpp2)\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\n── Attaching packages ────────────────────────────────────────────── fpp2 2.5 ──\n\n\n✔ ggplot2   3.4.1     ✔ fma       2.5  \n✔ forecast  8.21      ✔ expsmooth 2.3  \n\n\n\n\ndata(ausbeer)\nautoplot(ausbeer)"
+    "section": "",
+    "text": "library(fpp2)\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\n\n── Attaching packages ────────────────────────────────────────────── fpp2 2.5 ──\n\n\n✔ ggplot2   3.4.2     ✔ fma       2.5  \n✔ forecast  8.21      ✔ expsmooth 2.3  \n\n\n\n\ndata(ausbeer)\nautoplot(ausbeer)"
   },
   {
     "objectID": "semanas/Aula03.html#separando-dois-trechos-da-serie",
     "href": "semanas/Aula03.html#separando-dois-trechos-da-serie",
     "title": "Explorando Series Temporais",
     "section": "Separando dois trechos da serie",
-    "text": "Separando dois trechos da serie\n\nlibrary(tsibble)\n\n\nAttaching package: 'tsibble'\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, union\n\nlibrary(feasts)\n\nCarregando pacotes exigidos: fabletools\n\n\n\nAttaching package: 'fabletools'\n\n\nThe following objects are masked from 'package:forecast':\n\n    accuracy, forecast\n\nausbeer2 &lt;- as_tsibble(ausbeer)\nserie1 &lt;- ausbeer2 %&gt;% filter_index(\"1960 Q1\" ~ \"1964 Q4\")\ngg_season(serie1)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\ngg_subseries(serie1)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\nserie2 &lt;- ausbeer2 %&gt;% filter_index(\"2005 Q1\" ~ \"2009 Q4\")\ngg_season(serie2)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\ngg_subseries(serie2)\n\nPlot variable not specified, automatically selected `y = value`"
+    "text": "Separando dois trechos da serie\n\nlibrary(tsibble)\n\n\nAttaching package: 'tsibble'\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, union\n\nlibrary(feasts)\n\nCarregando pacotes exigidos: fabletools\n\n\n\nAttaching package: 'fabletools'\n\n\nThe following object is masked from 'package:forecast':\n\n    accuracy\n\nausbeer2 &lt;- as_tsibble(ausbeer)\nserie1 &lt;- ausbeer2 %&gt;% filter_index(\"1960 Q1\" ~ \"1964 Q4\")\ngg_season(serie1)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\ngg_subseries(serie1)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\nserie2 &lt;- ausbeer2 %&gt;% filter_index(\"2005 Q1\" ~ \"2009 Q4\")\ngg_season(serie2)\n\nPlot variable not specified, automatically selected `y = value`\n\n\n\n\ngg_subseries(serie2)\n\nPlot variable not specified, automatically selected `y = value`"
+  },
+  {
+    "objectID": "semanas/Aula03.html#decomposição-aditiva",
+    "href": "semanas/Aula03.html#decomposição-aditiva",
+    "title": "Explorando Series Temporais",
+    "section": "Decomposição Aditiva",
+    "text": "Decomposição Aditiva\n\nlibrary(foreign)\nprodcerv &lt;- scan(\"beerprod.dat\")\nprodcerv &lt;- ts(prodcerv, start = 1960, freq = 4)\nautoplot(prodcerv)\n\n\n\ndecompos1 &lt;- decompose(prodcerv, type = \"additive\")\nplot(decompos1)\n\n\n\ndecompos1\n\n$x\n      Qtr1  Qtr2  Qtr3  Qtr4\n1960 284.4 212.8 226.9 308.4\n1961 262.0 227.9 236.1 320.4\n1962 271.9 232.8 237.0 313.4\n1963 261.4 226.8 249.9 314.3\n1964 286.1 226.5 260.4 311.4\n1965 294.7 232.6 257.2 339.2\n1966 279.1 249.8 269.8 345.7\n1967 293.8 254.7 277.5 363.4\n1968 313.4 272.8 300.1 369.5\n1969 330.8 287.8 305.9 386.1\n1970 335.2 288.0 308.3 402.3\n1971 352.8 316.1 324.9 404.8\n1972 393.0 318.9 327.0 442.3\n1973 383.1 331.6 361.4 445.9\n1974 386.6 357.2 373.6 466.2\n1975 409.6 369.8 378.6 487.0\n1976 419.2 376.7 392.8 506.1\n1977 458.4 387.4 426.9 525.0\n\n$seasonal\n           Qtr1       Qtr2       Qtr3       Qtr4\n1960   7.896324 -40.678676 -24.650735  57.433088\n1961   7.896324 -40.678676 -24.650735  57.433088\n1962   7.896324 -40.678676 -24.650735  57.433088\n1963   7.896324 -40.678676 -24.650735  57.433088\n1964   7.896324 -40.678676 -24.650735  57.433088\n1965   7.896324 -40.678676 -24.650735  57.433088\n1966   7.896324 -40.678676 -24.650735  57.433088\n1967   7.896324 -40.678676 -24.650735  57.433088\n1968   7.896324 -40.678676 -24.650735  57.433088\n1969   7.896324 -40.678676 -24.650735  57.433088\n1970   7.896324 -40.678676 -24.650735  57.433088\n1971   7.896324 -40.678676 -24.650735  57.433088\n1972   7.896324 -40.678676 -24.650735  57.433088\n1973   7.896324 -40.678676 -24.650735  57.433088\n1974   7.896324 -40.678676 -24.650735  57.433088\n1975   7.896324 -40.678676 -24.650735  57.433088\n1976   7.896324 -40.678676 -24.650735  57.433088\n1977   7.896324 -40.678676 -24.650735  57.433088\n\n$trend\n         Qtr1     Qtr2     Qtr3     Qtr4\n1960       NA       NA 255.3250 254.4125\n1961 257.4500 260.1000 262.8375 264.6875\n1962 265.4125 264.6500 262.4625 260.4000\n1963 261.2625 262.9875 266.1875 269.2375\n1964 270.5125 271.4625 272.1750 274.0125\n1965 274.3750 277.4500 278.9750 279.1750\n1966 282.9000 285.2875 287.9375 290.3875\n1967 291.9625 295.1375 299.8000 304.5125\n1968 309.6000 313.1875 316.1250 320.1750\n1969 322.7750 325.5750 328.2000 328.7750\n1970 329.1000 331.4250 335.6500 341.3625\n1971 346.9500 349.3375 354.6750 360.0500\n1972 360.6625 365.6125 369.0625 369.4125\n1973 375.3000 380.0500 380.9375 384.5750\n1974 389.3000 393.3625 398.7750 403.2250\n1975 405.4250 408.6500 412.4500 414.5125\n1976 417.1500 421.3125 428.6000 434.8375\n1977 440.4375 447.0625       NA       NA\n\n$random\n             Qtr1         Qtr2         Qtr3         Qtr4\n1960           NA           NA  -3.77426471  -3.44558824\n1961  -3.34632353   8.47867647  -2.08676471  -1.72058824\n1962  -1.40882353   8.82867647  -0.81176471  -4.43308824\n1963  -7.75882353   4.49117647   8.36323529 -12.37058824\n1964   7.69117647  -4.28382353  12.87573529 -20.04558824\n1965  12.42867647  -4.17132353   2.87573529   2.59191176\n1966 -11.69632353   5.19117647   6.51323529  -2.12058824\n1967  -6.05882353   0.24117647   2.35073529   1.45441176\n1968  -4.09632353   0.29117647   8.62573529  -8.10808824\n1969   0.12867647   2.90367647   2.35073529  -0.10808824\n1970  -1.79632353  -2.74632353  -2.69926471   3.50441176\n1971  -2.04632353   7.44117647  -5.12426471 -12.68308824\n1972  24.44117647  -6.03382353 -17.41176471  15.45441176\n1973  -0.09632353  -7.77132353   5.11323529   3.89191176\n1974 -10.59632353   4.51617647  -0.52426471   5.54191176\n1975  -3.72132353   1.82867647  -9.19926471  15.05441176\n1976  -5.84632353  -3.93382353 -11.14926471  13.82941176\n1977  10.06617647 -18.98382353           NA           NA\n\n$figure\n[1]   7.896324 -40.678676 -24.650735  57.433088\n\n$type\n[1] \"additive\"\n\nattr(,\"class\")\n[1] \"decomposed.ts\""
+  },
+  {
+    "objectID": "semanas/Aula03.html#decomposição-multiplicativa",
+    "href": "semanas/Aula03.html#decomposição-multiplicativa",
+    "title": "Explorando Series Temporais",
+    "section": "Decomposição Multiplicativa",
+    "text": "Decomposição Multiplicativa\n\ndecompos2 &lt;- decompose(prodcerv, type = \"multiplicative\")\nplot(decompos2)\n\n\n\ndecompos2\n\n$x\n      Qtr1  Qtr2  Qtr3  Qtr4\n1960 284.4 212.8 226.9 308.4\n1961 262.0 227.9 236.1 320.4\n1962 271.9 232.8 237.0 313.4\n1963 261.4 226.8 249.9 314.3\n1964 286.1 226.5 260.4 311.4\n1965 294.7 232.6 257.2 339.2\n1966 279.1 249.8 269.8 345.7\n1967 293.8 254.7 277.5 363.4\n1968 313.4 272.8 300.1 369.5\n1969 330.8 287.8 305.9 386.1\n1970 335.2 288.0 308.3 402.3\n1971 352.8 316.1 324.9 404.8\n1972 393.0 318.9 327.0 442.3\n1973 383.1 331.6 361.4 445.9\n1974 386.6 357.2 373.6 466.2\n1975 409.6 369.8 378.6 487.0\n1976 419.2 376.7 392.8 506.1\n1977 458.4 387.4 426.9 525.0\n\n$seasonal\n          Qtr1      Qtr2      Qtr3      Qtr4\n1960 1.0237877 0.8753662 0.9233315 1.1775147\n1961 1.0237877 0.8753662 0.9233315 1.1775147\n1962 1.0237877 0.8753662 0.9233315 1.1775147\n1963 1.0237877 0.8753662 0.9233315 1.1775147\n1964 1.0237877 0.8753662 0.9233315 1.1775147\n1965 1.0237877 0.8753662 0.9233315 1.1775147\n1966 1.0237877 0.8753662 0.9233315 1.1775147\n1967 1.0237877 0.8753662 0.9233315 1.1775147\n1968 1.0237877 0.8753662 0.9233315 1.1775147\n1969 1.0237877 0.8753662 0.9233315 1.1775147\n1970 1.0237877 0.8753662 0.9233315 1.1775147\n1971 1.0237877 0.8753662 0.9233315 1.1775147\n1972 1.0237877 0.8753662 0.9233315 1.1775147\n1973 1.0237877 0.8753662 0.9233315 1.1775147\n1974 1.0237877 0.8753662 0.9233315 1.1775147\n1975 1.0237877 0.8753662 0.9233315 1.1775147\n1976 1.0237877 0.8753662 0.9233315 1.1775147\n1977 1.0237877 0.8753662 0.9233315 1.1775147\n\n$trend\n         Qtr1     Qtr2     Qtr3     Qtr4\n1960       NA       NA 255.3250 254.4125\n1961 257.4500 260.1000 262.8375 264.6875\n1962 265.4125 264.6500 262.4625 260.4000\n1963 261.2625 262.9875 266.1875 269.2375\n1964 270.5125 271.4625 272.1750 274.0125\n1965 274.3750 277.4500 278.9750 279.1750\n1966 282.9000 285.2875 287.9375 290.3875\n1967 291.9625 295.1375 299.8000 304.5125\n1968 309.6000 313.1875 316.1250 320.1750\n1969 322.7750 325.5750 328.2000 328.7750\n1970 329.1000 331.4250 335.6500 341.3625\n1971 346.9500 349.3375 354.6750 360.0500\n1972 360.6625 365.6125 369.0625 369.4125\n1973 375.3000 380.0500 380.9375 384.5750\n1974 389.3000 393.3625 398.7750 403.2250\n1975 405.4250 408.6500 412.4500 414.5125\n1976 417.1500 421.3125 428.6000 434.8375\n1977 440.4375 447.0625       NA       NA\n\n$random\n          Qtr1      Qtr2      Qtr3      Qtr4\n1960        NA        NA 0.9624618 1.0294603\n1961 0.9940277 1.0009542 0.9728614 1.0279992\n1962 1.0006402 1.0048965 0.9779652 1.0220960\n1963 0.9772791 0.9851859 1.0167658 0.9913854\n1964 1.0330483 0.9531662 1.0361797 0.9651213\n1965 1.0491213 0.9577127 0.9984999 1.0318415\n1966 0.9636448 1.0002762 1.0148131 1.0110093\n1967 0.9829124 0.9858590 1.0024753 1.0134760\n1968 0.9887538 0.9950621 1.0281334 0.9800781\n1969 1.0010499 1.0098340 1.0094463 0.9973204\n1970 0.9948698 0.9926987 0.9947849 1.0008475\n1971 0.9932345 1.0336881 0.9921137 0.9547977\n1972 1.0643432 0.9964230 0.9595998 1.0168082\n1973 0.9970655 0.9967449 1.0274880 0.9846686\n1974 0.9699907 1.0373582 1.0146617 0.9818802\n1975 0.9868236 1.0337741 0.9941494 0.9977575\n1976 0.9815652 1.0214133 0.9925711 0.9884234\n1977 1.0166008 0.9899235        NA        NA\n\n$figure\n[1] 1.0237877 0.8753662 0.9233315 1.1775147\n\n$type\n[1] \"multiplicative\"\n\nattr(,\"class\")\n[1] \"decomposed.ts\""
+  },
+  {
+    "objectID": "semanas/Aula04.html",
+    "href": "semanas/Aula04.html",
+    "title": "Avaliando Series Temporais",
+    "section": "",
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais financeiras e também na sua modelagem."
+  },
+  {
+    "objectID": "semanas/Aula04.html#séries-temporais",
+    "href": "semanas/Aula04.html#séries-temporais",
+    "title": "Avaliando Series Temporais",
+    "section": "",
+    "text": "Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais financeiras e também na sua modelagem."
+  },
+  {
+    "objectID": "semanas/Aula04.html#obtendo-e-visualizando-uma-st",
+    "href": "semanas/Aula04.html#obtendo-e-visualizando-uma-st",
+    "title": "Avaliando Series Temporais",
+    "section": "Obtendo e Visualizando uma ST",
+    "text": "Obtendo e Visualizando uma ST\nVamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços da Petrobras (PETR4) entre 2000 e 2022.\nA biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.\n\nlibrary(quantmod)\n\nCarregando pacotes exigidos: xts\n\n\nCarregando pacotes exigidos: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\nCarregando pacotes exigidos: TTR\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\ngetSymbols(\"PETR4.SA\",from=\"2000-01-01\", to=\"2022-09-30\")\n\nWarning: PETR4.SA contains missing values. Some functions will not work if\nobjects contain missing values in the middle of the series. Consider using\nna.omit(), na.approx(), na.fill(), etc to remove or replace them.\n\n\n[1] \"PETR4.SA\"\n\nhead(PETR4.SA)\n\n           PETR4.SA.Open PETR4.SA.High PETR4.SA.Low PETR4.SA.Close\n2000-01-03         5.875         5.875        5.875          5.875\n2000-01-04         5.550         5.550        5.550          5.550\n2000-01-05         5.494         5.494        5.494          5.494\n2000-01-06         5.475         5.475        5.475          5.475\n2000-01-07         5.500         5.500        5.500          5.500\n2000-01-10         5.613         5.613        5.613          5.613\n           PETR4.SA.Volume PETR4.SA.Adjusted\n2000-01-03     35389440000          1.666141\n2000-01-04     28861440000          1.573971\n2000-01-05     43033600000          1.558090\n2000-01-06     34055680000          1.552701\n2000-01-07     20912640000          1.559791\n2000-01-10     19563520000          1.591838\n\n# A biblioteca tem uma forma diferenciada de apresentação das series financeiras\nchartSeries(PETR4.SA,theme=\"white\")\n\n\n\n\nVeja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)\n\nsummary(PETR4.SA)\n\n     Index            PETR4.SA.Open   PETR4.SA.High    PETR4.SA.Low   \n Min.   :2000-01-03   Min.   : 4.20   Min.   : 4.27   Min.   : 4.120  \n 1st Qu.:2005-07-04   1st Qu.:10.15   1st Qu.:10.35   1st Qu.: 9.969  \n Median :2011-03-28   Median :19.09   Median :19.39   Median :18.765  \n Mean   :2011-04-09   Mean   :18.92   Mean   :19.20   Mean   :18.617  \n 3rd Qu.:2017-01-03   3rd Qu.:26.05   3rd Qu.:26.43   3rd Qu.:25.650  \n Max.   :2022-09-29   Max.   :67.50   Max.   :67.50   Max.   :51.950  \n                      NA's   :1       NA's   :1       NA's   :1       \n PETR4.SA.Close  PETR4.SA.Volume     PETR4.SA.Adjusted\n Min.   : 4.20   Min.   :0.000e+00   Min.   : 1.241   \n 1st Qu.:10.11   1st Qu.:2.113e+07   1st Qu.: 3.320   \n Median :19.10   Median :3.374e+07   Median : 6.716   \n Mean   :18.89   Mean   :5.644e+08   Mean   : 6.934   \n 3rd Qu.:26.00   3rd Qu.:5.434e+07   3rd Qu.: 9.445   \n Max.   :52.51   Max.   :7.356e+10   Max.   :26.850   \n NA's   :1       NA's   :1           NA's   :1"
+  },
+  {
+    "objectID": "semanas/Aula04.html#vamos-selecionar-somente-o-fechamento-close",
+    "href": "semanas/Aula04.html#vamos-selecionar-somente-o-fechamento-close",
+    "title": "Avaliando Series Temporais",
+    "section": "Vamos selecionar somente o fechamento (close)",
+    "text": "Vamos selecionar somente o fechamento (close)\nPara trabalhar com somente uma das series vamos selecionar sua coluna de dados\n\nPETR4.SA.Close &lt;- PETR4.SA[,\"PETR4.SA.Close\"]\nchartSeries(PETR4.SA.Close,theme=\"white\")"
+  },
+  {
+    "objectID": "semanas/Aula04.html#podemos-extrair-somente-um-ano",
+    "href": "semanas/Aula04.html#podemos-extrair-somente-um-ano",
+    "title": "Avaliando Series Temporais",
+    "section": "Podemos extrair somente um ano?",
+    "text": "Podemos extrair somente um ano?\nVamos usar os dados de 2000.\n\nPETR4_2000 &lt;- PETR4.SA.Close[\"2000\"]\nchartSeries(PETR4_2000,theme=\"white\")"
+  },
+  {
+    "objectID": "semanas/Aula04.html#podemos-extrair-um-intervalo",
+    "href": "semanas/Aula04.html#podemos-extrair-um-intervalo",
+    "title": "Avaliando Series Temporais",
+    "section": "Podemos extrair um intervalo?",
+    "text": "Podemos extrair um intervalo?\nVamos usar os dados de 2000 a 2001.\n\nPETR4_2000_2001 &lt;- PETR4.SA.Close[\"2000/2001\"] \nchartSeries(PETR4_2000_2001,theme=\"white\")"
+  },
+  {
+    "objectID": "semanas/Aula04.html#vamos-trabalhar-com-outro-intervalo",
+    "href": "semanas/Aula04.html#vamos-trabalhar-com-outro-intervalo",
+    "title": "Avaliando Series Temporais",
+    "section": "Vamos trabalhar com outro intervalo",
+    "text": "Vamos trabalhar com outro intervalo\nVamos usar dados de set/21 a set/22.\n\nPETR4.SA.Close &lt;- PETR4.SA.Close[\"2021-09-01/2022-09-30\"]\nchartSeries(PETR4.SA.Close,theme=\"white\")"
+  },
+  {
+    "objectID": "semanas/Aula04.html#visualizando-o-início-e-o-fim-da-serie",
+    "href": "semanas/Aula04.html#visualizando-o-início-e-o-fim-da-serie",
+    "title": "Avaliando Series Temporais",
+    "section": "Visualizando o início e o fim da serie",
+    "text": "Visualizando o início e o fim da serie\nAqui vamos usar funções da xts visualizar diferentes periodos.\n\nfirst(PETR4.SA.Close, \"month\")\n\n           PETR4.SA.Close\n2021-09-01          27.04\n2021-09-02          26.60\n2021-09-03          26.33\n2021-09-06          26.46\n2021-09-08          24.97\n2021-09-09          25.50\n2021-09-10          25.34\n2021-09-13          26.23\n2021-09-14          25.88\n2021-09-15          26.33\n2021-09-16          26.10\n2021-09-17          24.93\n2021-09-20          24.65\n2021-09-21          25.21\n2021-09-22          25.85\n2021-09-23          26.84\n2021-09-24          26.90\n2021-09-27          27.14\n2021-09-28          26.96\n2021-09-29          27.39\n2021-09-30          27.23\n\nlast(PETR4.SA.Close, \"6 weeks\")\n\n           PETR4.SA.Close\n2022-08-22          32.41\n2022-08-23          33.44\n2022-08-24          33.64\n2022-08-25          33.28\n2022-08-26          33.64\n2022-08-29          34.48\n2022-08-30          32.43\n2022-08-31          33.23\n2022-09-01          33.85\n2022-09-02          33.42\n2022-09-05          33.34\n2022-09-06          32.10\n2022-09-08          31.80\n2022-09-09          31.79\n2022-09-12          31.48\n2022-09-13          30.65\n2022-09-14          31.12\n2022-09-15          31.06\n2022-09-16          30.78\n2022-09-19          31.27\n2022-09-20          31.09\n2022-09-21          31.17\n2022-09-22          31.94\n2022-09-23          29.94\n2022-09-26          29.29\n2022-09-27          29.67\n2022-09-28          29.27\n2022-09-29          29.31"
+  },
+  {
+    "objectID": "semanas/Aula04.html#vamos-agora-trabalhar-com-os-log-retornos-das-ações",
+    "href": "semanas/Aula04.html#vamos-agora-trabalhar-com-os-log-retornos-das-ações",
+    "title": "Avaliando Series Temporais",
+    "section": "Vamos agora trabalhar com os log retornos das ações",
+    "text": "Vamos agora trabalhar com os log retornos das ações\nPara obter os log retornos vamos usar uma função da biblioteca qrmtools.\n\nlibrary(qrmtools)\npetr4.logret &lt;- returns(PETR4.SA.Close, method=\"logarithmic\")\nhead(petr4.logret)\n\n                   [,1]\n2021-09-02 -0.016406055\n2021-09-03 -0.010202260\n2021-09-06  0.004925153\n2021-09-08 -0.057959047\n2021-09-09  0.021003375\n2021-09-10 -0.006294271\n\nchartSeries(petr4.logret,theme=\"white\")"
+  },
+  {
+    "objectID": "semanas/Aula04.html#podemos-agragar-valores-diários-de-diversas-formas",
+    "href": "semanas/Aula04.html#podemos-agragar-valores-diários-de-diversas-formas",
+    "title": "Avaliando Series Temporais",
+    "section": "Podemos agragar valores diários de diversas formas",
+    "text": "Podemos agragar valores diários de diversas formas\nPara agregar valores de series temporais vamos usar a biblioteca xts\n\nlibrary(xts)\npetr4.logret.sem &lt;- apply.weekly(petr4.logret, sum)\nfirst(petr4.logret.sem, \"2 week\")\n\n                  [,1]\n2021-09-03 -0.02660831\n2021-09-10 -0.03832479\n\npetr4.logret.men &lt;- apply.monthly(petr4.logret, sum)\nfirst(petr4.logret.men, \"2 month\")\n\n                   [,1]\n2021-09-30  0.007002005\n2021-10-29 -0.002942258"
+  },
+  {
+    "objectID": "semanas/Aula04.html#os-log-retornos-seguem-uma-distribuição-normal",
+    "href": "semanas/Aula04.html#os-log-retornos-seguem-uma-distribuição-normal",
+    "title": "Avaliando Series Temporais",
+    "section": "Os log retornos seguem uma distribuição normal?",
+    "text": "Os log retornos seguem uma distribuição normal?\nVamos usar alguma ferrametas gráficas para avaliar os dados de log-retorno\n\nmu &lt;- mean(petr4.logret)\nsigma &lt;- sd(petr4.logret)\nc(mu, sigma)\n\n[1] 0.0002996708 0.0264217205\n\nx &lt;- sort(coredata(petr4.logret))\nhist(x, breaks = \"Sturges\" , probability = TRUE)\nlines(x, dnorm(x, mean = mu, sd = sigma), col = \"red\")\n\n\n\nqqnorm(x)\nqqline(x)"
+  },
+  {
+    "objectID": "semanas/Aula04.html#outra-avaliação-jarque-bera",
+    "href": "semanas/Aula04.html#outra-avaliação-jarque-bera",
+    "title": "Avaliando Series Temporais",
+    "section": "Outra avaliação Jarque-Bera",
+    "text": "Outra avaliação Jarque-Bera\n\nlibrary(moments)\nx &lt;- sort(coredata(petr4.logret))\njarque.test(x)\n\n\n    Jarque-Bera Normality Test\n\ndata:  x\nJB = 367.04, p-value &lt; 2.2e-16\nalternative hypothesis: greater"
+  },
+  {
+    "objectID": "semanas/Aula04.html#e-o-log-retorno-semanal",
+    "href": "semanas/Aula04.html#e-o-log-retorno-semanal",
+    "title": "Avaliando Series Temporais",
+    "section": "E o log retorno semanal?",
+    "text": "E o log retorno semanal?\nVamos usar alguma ferrametas gráficas para avaliar os dados de log-retorno\n\nmu &lt;- mean(petr4.logret.sem)\nsigma &lt;- sd(petr4.logret.sem)\nc(mu, sigma)\n\n[1] 0.001414236 0.052515182\n\nx &lt;- sort(coredata(petr4.logret.sem))\nhist(x, breaks = \"Sturges\" , probability = TRUE)\nlines(x, dnorm(x, mean = mu, sd = sigma), col = \"red\")\n\n\n\nqqnorm(x)\nqqline(x)"
+  },
+  {
+    "objectID": "semanas/Aula04.html#outra-avaliação-jarque-bera-1",
+    "href": "semanas/Aula04.html#outra-avaliação-jarque-bera-1",
+    "title": "Avaliando Series Temporais",
+    "section": "Outra avaliação Jarque-Bera",
+    "text": "Outra avaliação Jarque-Bera\n\nlibrary(moments)\nx &lt;- sort(coredata(petr4.logret.sem))\njarque.test(x)\n\n\n    Jarque-Bera Normality Test\n\ndata:  x\nJB = 1.0108, p-value = 0.6033\nalternative hypothesis: greater"
   },
   {
     "objectID": "visao-do-curso.html",

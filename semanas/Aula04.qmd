@@ -1,0 +1,159 @@
+---
+title: "Avaliando Series Temporais"
+author: "Ricardo Accioly"
+date: "`r Sys.Date()`"
+format:
+ html:
+    code-link: true
+---
+
+```{r, include=FALSE}
+# parametros para imagens
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.asp = 0.618,
+  fig.retina = 3,
+  dpi = 300,
+  out.width = "80%"
+)
+```
+
+## Séries Temporais
+
+Nestes exemplos vamos usar algumas bibliotecas do R que são usadas na análise de séries temporais financeiras e também na sua modelagem.
+
+## Obtendo e Visualizando uma ST
+
+Vamos inicialmente usando a biblioteca (pacote) quantmod fazer um download dos preços da Petrobras (PETR4) entre 2000 e 2022.
+
+A biblioteca quantmod depende dos pacotes xts e do zoo que são dois pacotes usados para manipular dados de series temporais.
+
+```{r}
+library(quantmod)
+getSymbols("PETR4.SA",from="2000-01-01", to="2022-09-30")
+head(PETR4.SA)
+# A biblioteca tem uma forma diferenciada de apresentação das series financeiras
+chartSeries(PETR4.SA,theme="white")
+```
+
+Veja que os dados recebidos tem valores de abertura (open), alta (high), baixa (low) e fechamento (close)
+
+```{r}
+#| warning: false
+summary(PETR4.SA)
+```
+
+## Vamos selecionar somente o fechamento (close)
+
+Para trabalhar com somente uma das series vamos selecionar sua coluna de dados
+
+```{r}
+PETR4.SA.Close <- PETR4.SA[,"PETR4.SA.Close"]
+chartSeries(PETR4.SA.Close,theme="white")
+```
+
+## Podemos extrair somente um ano?
+
+Vamos usar os dados de 2000.
+
+```{r}
+PETR4_2000 <- PETR4.SA.Close["2000"]
+chartSeries(PETR4_2000,theme="white")
+```
+
+## Podemos extrair um intervalo?
+
+Vamos usar os dados de 2000 a 2001.
+
+```{r}
+PETR4_2000_2001 <- PETR4.SA.Close["2000/2001"] 
+chartSeries(PETR4_2000_2001,theme="white")
+```
+
+## Vamos trabalhar com outro intervalo
+
+Vamos usar dados de set/21 a set/22.
+
+```{r}
+PETR4.SA.Close <- PETR4.SA.Close["2021-09-01/2022-09-30"]
+chartSeries(PETR4.SA.Close,theme="white")
+```
+
+## Visualizando o início e o fim da serie
+
+Aqui vamos usar funções da xts visualizar diferentes periodos.
+
+```{r}
+first(PETR4.SA.Close, "month")
+last(PETR4.SA.Close, "6 weeks")
+```
+
+## Vamos agora trabalhar com os log retornos das ações
+
+Para obter os log retornos vamos usar uma função da biblioteca qrmtools.
+
+```{r}
+library(qrmtools)
+petr4.logret <- returns(PETR4.SA.Close, method="logarithmic")
+head(petr4.logret)
+chartSeries(petr4.logret,theme="white")
+```
+
+## Podemos agragar valores diários de diversas formas
+
+Para agregar valores de series temporais vamos usar a biblioteca xts
+
+```{r}
+library(xts)
+petr4.logret.sem <- apply.weekly(petr4.logret, sum)
+first(petr4.logret.sem, "2 week")
+petr4.logret.men <- apply.monthly(petr4.logret, sum)
+first(petr4.logret.men, "2 month")
+```
+
+## Os log retornos seguem uma distribuição normal?
+
+Vamos usar alguma ferrametas gráficas para avaliar os dados de log-retorno
+
+```{r}
+mu <- mean(petr4.logret)
+sigma <- sd(petr4.logret)
+c(mu, sigma)
+x <- sort(coredata(petr4.logret))
+hist(x, breaks = "Sturges" , probability = TRUE)
+lines(x, dnorm(x, mean = mu, sd = sigma), col = "red")
+qqnorm(x)
+qqline(x)
+```
+
+## Outra avaliação Jarque-Bera
+
+```{r}
+library(moments)
+x <- sort(coredata(petr4.logret))
+jarque.test(x)
+```
+
+## E o log retorno semanal?
+
+Vamos usar alguma ferrametas gráficas para avaliar os dados de log-retorno
+
+```{r}
+mu <- mean(petr4.logret.sem)
+sigma <- sd(petr4.logret.sem)
+c(mu, sigma)
+x <- sort(coredata(petr4.logret.sem))
+hist(x, breaks = "Sturges" , probability = TRUE)
+lines(x, dnorm(x, mean = mu, sd = sigma), col = "red")
+qqnorm(x)
+qqline(x)
+```
+
+## Outra avaliação Jarque-Bera
+
+```{r}
+library(moments)
+x <- sort(coredata(petr4.logret.sem))
+jarque.test(x)
+```
+
